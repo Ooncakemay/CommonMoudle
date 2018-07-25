@@ -1,0 +1,18 @@
+﻿【模組名稱】
+PopUp彈出式訊息視窗
+
+【功能】
+觸發後跳出一訊息視窗，除了可設定標題、內文外，亦可設定按下"確定"後要導入的頁面。
+相當於美觀多工版的alert()
+
+【建置方法】
+將"PopUp.cshtml"中指定的內容貼入專案的"_Layout"中
+
+
+【使用方法】
+須跳出PopUp訊息視窗時請在View叫用OpenPop(Title, Message, gotoURL);
+	//Tital:訊息視窗標題，沒有就顯示"訊息視窗"
+    //Message:訊息視窗內文
+    //gotoURL:關閉訊息視窗後，需導向的頁面網址，空值就不導頁
+
+須關閉PopUp訊息視窗時請在View叫用ClosePop();

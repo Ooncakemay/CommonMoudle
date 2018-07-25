@@ -1,0 +1,11 @@
+﻿<pre>
+【模組名稱】
+SYS_Parameter
+
+【功能】
+取得SYS_Parameter內資料
+
+【建置方法】
+1.將ParameterHelper及ParameterModel加入專案後，把Parameter.xml內容貼入DA.xml
+2.利用此方法可取得內容 ParameterHelper.GetSysParam("SYSTEM", "IndexTitle").strParamValue;或ParameterHelper.GetSysParam("SYSTEM", "IndexTitle").ParamDesc;
+</pre>

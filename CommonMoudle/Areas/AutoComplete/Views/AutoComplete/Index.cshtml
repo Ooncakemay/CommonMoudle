@@ -1,0 +1,92 @@
+﻿<pre>
+【模組名稱】
+AutoComplete
+
+【功能】
+1.根據輸入的關鍵字,顯示相關的搜尋結果,並可選取結果
+
+
+【建置方法】
+將本Area加入專案,並引入Scripts/Autocomplete中的.js及Styles/Autocomplete中的css
+【使用方法】
+此範例是使用地址查詢
+
+AutoCompleteModel說明:
+strAddress : 需要搜尋出來的結果
+intSeqNo : 流水號用來取得多個關鍵字搜尋的結果 須為不重複得值
+dtmUpdate : 日期用來排序用
+
+將以下內容加入需要的View中:
+putkeyword請根據所用的textbox id進行更改
+
+ &lt;script type="text/javascript"&gt;
+      $('#putkeyword').keyup(function(e){
+                if (e.keyCode == 13)
+                {
+                    if(event.shiftKey){
+                        e.stopPropagation();
+                    } else {
+                       
+                        $('#CustomerMessage').autocomplete('close');
+                        e.preventDefault();
+                    }
+                }
+            });
+
+            
+
+            //AutoComplete
+            $("#putkeyword").autocomplete({
+                minLength: 1,
+                appendTo: '.auto_com',
+                source: function (request, response) {
+                    var msg = $('#putkeyword').val().split('');
+                    var keyword ='';
+                    $(msg).each(function(index){
+                        keyword += msg[index]+'%';
+                    });
+                    $.ajax({
+                        url: "@Url.Action("GetGuide", "AutoComplete", new { area = "AutoComplete" })",
+                        dataType: "json",
+                        data: {
+                             key: '%'+keyword
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    value: item.intSeqNo,
+                                    label: item.strAddress,
+                                    id: item.intSeqNo
+                                }
+                            })
+                        )}
+                    })
+                },
+                position: {
+                    my: "left bottom",
+                    at: "left top"
+                },
+                select: function( event, ui ) {
+                    if(event.keyCode == 13) {
+                        return false;
+                    }
+                    this.value = ui.item.label;
+                   
+                    return false;
+                },
+                focus: function (event, ui) {
+                    this.value = ui.item.label;
+                    event.preventDefault(); // Prevent the default focus behavior.
+                }
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+                //keyword highlight
+                var newText = String(item.label).replace(new RegExp(this.term, "gi"),"&lt;span style='color:#F4245F'>$&&lt;/span&gt;");
+                return $("&lt;li&gt;").data("ui-autocomplete-item", item)
+                       .append("&lt;a href=\"javascript:countQuestionGuide('" + item.id + "')\"&gt;" + newText + "&lt;/a&gt;")
+                       .appendTo(ul);
+            };
+            
+          
+        });
+ &lt;/script&gt;
+</pre>

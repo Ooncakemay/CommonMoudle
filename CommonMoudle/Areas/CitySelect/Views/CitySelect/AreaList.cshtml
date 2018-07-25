@@ -1,0 +1,13 @@
+﻿@model List<CommonMoudle.Areas.CitySelect.Models.AreaModel>
+@{
+    Layout = null;
+}
+
+<option value="0">鄉鎮市區</option>
+@if ( Model != null )
+{
+    foreach (var areaItem in Model)
+    {
+        <option value="@areaItem.intZipCode">@areaItem.strArea (@areaItem.intZipCode)</option>
+    } // foreach
+}

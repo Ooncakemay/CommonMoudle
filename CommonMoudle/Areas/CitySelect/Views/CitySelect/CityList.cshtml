@@ -1,0 +1,13 @@
+﻿@model List<CommonMoudle.Areas.CitySelect.Models.CityModel>
+@{
+    Layout = null;
+}
+
+<option value="0">縣市</option>
+@if (Model != null)
+{
+    foreach (var cityItem in Model)
+    {
+        <option value="@cityItem.intCityCode">@cityItem.strCity</option>
+    } // foreach
+}

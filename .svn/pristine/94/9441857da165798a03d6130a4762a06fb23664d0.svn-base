@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <ConnectingPool>
+    <!--Test-->
+    <Connect Name="LRP" ConnectingString="Xy/C/mqJJLIvLvkruY/qv+oGtfghX2AUd9C4Nl25+i5CQoSkPfOHcJZYeCQuQLTv20DpzZVjXElYw0FvHVgKUrmEbAIWXaSTpdP8gGNwyybepfEzF93k60UBAah90hZhdqGPaxgF+Wx7lvvin7u/RYR35VmwBp5HSDLhnSPjUz9iJZ+JiMUAG1rGGspwiHB0U+rEJ0C375Vca4k+X+2fqCNZHMQMSjrI89cPVTdZEj4=" />
+
+    <!--QA-->
+    <!--
+    <Connect Name="LRP" ConnectingString="Xy/C/mqJJLIvLvkruY/qv+oGtfghX2AUd9C4Nl25+i5CQoSkPfOHcJZYeCQuQLTv20DpzZVjXElYw0FvHVgKUrmEbAIWXaSTpdP8gGNwyybk+n30qJ2uWg4ryWjR/Kc48TH3o2vSaIv4IDos8k/mkZW1uaS2eRGYqJwkV4axRiRIu6Cyz8aZDgGd1Bg4493c98is9iVo6AA0D7GSbiBh6f1e1v0LoB36RLkN6urX17k=" />-->
+
+    <!--Inventalk-->
+    <Connect Name="LRP" ConnectingString="Xy/C/mqJJLIvLvkruY/qv+oGtfghX2AUd9C4Nl25+i66wwvkXNfjfxx2qHs9SOfkUbZDZ1syZFfVi0zH/wD2ThoubhniNOVDUYDMbFVdmxGMDc4XMv1t37bTPu36bimnHLlYQ/0T29MZXW0Owxp7c9PwZV56y7XE60qS3RE3S2OwQUUWmy8G4yZyGQvtEm0JkAhKbXx8MrBH56GmIowta7WLjlsWpOOkrMWeDmUnAjk=" />
+
+  </ConnectingPool>
+  <SQLCommands>
+
+
+    <!-- 初始城市列表 Author:Chiahui Update:Chiahui LastUpdateDate:2016/5/12 -->
+    <SQL ID="InitCity" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+        SELECT DISTINCT intCityCode, strCity
+        FROM BS_Zip
+        ORDER BY intCityCode
+      ]]>
+    </SQL>
+
+    <!-- 取得鄉鎮市區by strCityName Author:Chiahui Update:Chiahui LastUpdateDate:2016/5/12 -->
+    <SQL ID="GetAreasByCityCode" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+        SELECT intZipCode, strArea
+        FROM BS_Zip
+        WHERE intCityCode = @intCityCode
+      ]]>
+    </SQL>
+
+    <!-- 取得鄉鎮市區by intZipCode Author:Chiahui Update:Chiahui LastUpdateDate:2016/5/12 -->
+    <SQL ID="GetCityCodeByZipCode" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+        SELECT intCityCode, strCity
+        FROM BS_Zip
+        WHERE intZipCode = @intZipCode
+      ]]>
+    </SQL>
+
+
+  </SQLCommands>
+</root>

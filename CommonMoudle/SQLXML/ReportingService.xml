@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+    <ConnectingPool>
+        <!--QA-->
+        <Connect Name="MJNCRM" ConnectingString="Xy/C/mqJJLIvLvkruY/qv+oGtfghX2AUd9C4Nl25+i5CQoSkPfOHcJZYeCQuQLTveW6rgPeC4nM1DOPkRUxL+a0D2x6VHo5tL/3CCi0JzMCeFVgs06u5yugpf8soiYPbbuBl1gPNMv+t69PD76Y+vqgPv2SW3rRwsIfrltICqcg9qbyznw4pzGZdLcqegmL2kKeGkZPxEn6n3p+D0pR3kA==" />
+        <!--Test-->
+        <!--<Connect Name="MJNCRM" ConnectingString="Xy/C/mqJJLIvLvkruY/qv+oGtfghX2AUd9C4Nl25+i5CQoSkPfOHcJZYeCQuQLTveW6rgPeC4nM1DOPkRUxL+a0D2x6VHo5tL/3CCi0JzMCeFVgs06u5yugpf8soiYPbxPA3EADG4sD60kI0Jb37SrkarQlx4hRHll1KjCt+LWNznSR02bWq4FxSqBqRj7pbL1AKsbVL9QdVZuZx6buJnyAqLa3g3kKBseIpV9lY3zQ=" />-->
+
+    </ConnectingPool>
+    <SQLCommands>
+
+        <!--財報-年區間選單 Author:ben Update:ben LastUpDate:2015/9/25-->
+        <SQL ID="GetYear" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="MJNCRM">
+            <![CDATA[   
+            declare @sql varchar(500)
+            set @sql = 'select distinct YEAR(' + @date  + ') as year from ' + @table + ' where ' + @date + ' is not null order by YEAR(' + @date + ')'
+            exec (@sql)
+        ]]>
+        </SQL>
+
+    </SQLCommands>
+</root>

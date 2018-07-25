@@ -1,0 +1,4 @@
+﻿@model List<CommonMoudle.Areas.ReportingService.Models.SelectMenu>
+@foreach (var item in @Model) {
+<option value="@item.strSelectValue" >@item.strSelectName</option>
+} 

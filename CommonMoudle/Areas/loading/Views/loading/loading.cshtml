@@ -1,0 +1,17 @@
+﻿    @{
+    ViewBag.Title = "loading";
+}
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    
+    @Styles.Render("~/Styles/loading")
+    <div class="temcs_popup_wrap" id="Loading" style="display:none;">
+        <div class="te_loader04"></div>
+    </div>
+    <script type="text/javascript">
+     $('#Loading').show();
+
+     setTimeout(function () {
+         $('#Loading').hide();
+     }, 5000);
+    </script>

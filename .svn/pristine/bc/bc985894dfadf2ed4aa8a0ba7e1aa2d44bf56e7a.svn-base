@@ -1,0 +1,107 @@
+﻿<pre>
+【模組名稱】
+圖片上傳
+
+【功能】
+圖片上傳,可允許單張圖上傳,多張圖同時上傳,一張圖會產生兩種不同尺寸的裁切(700*700/400*400 )
+不限制圖片上傳圖片的尺寸,但上傳圖檔大小限制為2M
+
+
+【建置方法】
+1.將本Area加入專案
+2.將Scripts中的ImageUpload資料夾整個加入所需專案(內含所需的js檔及css檔)
+3.加入Services中的ProductUploadHandler.ashx檔案
+4.加入Styles/ImageUpload中的css檔
+5.
+在Webconfig的<appSettings>中加入 
+&lt;add key="PicRootPath" value="~/Upload/" /&gt;  //圖片儲存的資料路徑,這裡在根目錄下建了一個資料夾Upload來存放圖檔
+ &lt;add key="BackWebPath" value="/LRP-Test/BackWeb" /&gt; //後台路徑,此功能中會用到後台路徑,故引用時要依照所需專案的後台路徑做修改
+
+【使用方法】
+1.在view中加入   &lt;input id="Upload" type="button" value="上傳" onclick="openUploadFileWin('Picture');"/&gt; //點擊上傳鈕可以開啟上傳視窗,Picture是預設圖片尺寸參數
+                
+                &lt;div id="maskMember" style="position: fixed; top: 0; left: 0; width: 100%; height: 200%;  //上傳視窗背後的mask
+                   background-color : #000; display: none; z-index: 9;"&gt;
+                 &lt;/div &gt;
+               &lt;div id="divDialogMember" frameborder="0" scrolling="no" class="divDialog"&gt;  //上傳視窗
+                   &lt;/div&gt;
+2.javascript部分 加入
+
+
+        //點選上傳
+     function openUploadFileWin(strProfileID) {
+        
+            var width = $(window).width();
+            if (width > 620) {
+                width = 600;
+            }
+            else {
+                width = width - 50;
+            }
+            openIframeMember(width, 400, strProfileID);
+       
+    }
+    
+    //上傳視窗
+    function openIframeMember(newWidth, newHeight, strProfileID) {
+        $('#divDialogMember').css({ width: newWidth, height: newHeight });
+        var h = ($(window).height() - newHeight) / 2 + $(window).scrollTop();
+        var w = ($(window).width() - newWidth) / 2 + $(window).scrollLeft();
+
+        if (h < 0) { h = $(window).scrollTop(); }
+
+        $('#divDialogMember').css({ top: h + "px", left: w + "px"
+        });
+
+        $("#divDialogMember").show();
+        $("#maskMember").fadeTo(250, 0.4);
+        $("#divDialogMember").show();
+
+        $.ajax({
+            url: '@Url.Action("ImageUpload", "ImageUpload", new { area = "ImageUpload" })',
+            data: {  strProfileID: strProfileID },
+            type: 'POST',
+            async: false,
+            cache: false,
+            success: function (data) {
+                $('#divDialogMember').empty();
+                $("#divDialogMember").append(data);
+            }
+        });
+    }
+    //取得檔案路徑
+    function SetFullFile(MultiSizeImgList, uploadPath, FolderPath, PicType) {
+        var BackWebPath = '@System.Configuration.ConfigurationManager.AppSettings["BackWebPath"].ToString()';  //後台路徑根據專案修改於WebConfig
+        for (var i = 0; i < MultiSizeImgList.length; i++) {
+            $('#' + MultiSizeImgList[i].ImgType).val(BackWebPath + uploadPath.replace('~', '') + '/' + MultiSizeImgList[i].FileName);
+
+
+            $('#FolderPath').val(FolderPath);
+
+
+                var picUrl ="@Url.Content("~/Upload/picture/")" + MultiSizeImgList[i].FileName;
+                var path = '&lt; a  href= '+ picUrl + ' target ="_blank" &gt;'+ MultiSizeImgList[i].FileName + '&lt;/a&gt;&lt;/br&gt;';
+                $('#ProductPicDiv').append(path);
+
+
+        }
+    }
+
+    //關閉 Iframe
+    function CloseIframe() {
+        $("#divDialogMember").html('');
+        $("#divDialogMember").attr('src', 'about:blank');
+        $("#divDialogMember").hide();
+        $("#maskMember").hide();
+    }
+
+3.在ProductUploadHandler.ashx中
+$("#uploader").pluploadQueue({
+....})
+中的url: ..... + 'picture/' + '&strProfileID=' + '@ViewBag.strProfileID', picture是Upload/picture的意思,picture是根據自己建立的資料夾名稱來命名
+
+4.在所需專案的SQLXML中新增
+
+ImageUpload.xml中的sql
+
+</pre>

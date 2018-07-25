@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>重寄驗證信</title>
+    
+    @Styles.Render("~/Styles/Common")
+    @Styles.Render("~/Styles/Register")
+    @Scripts.Render("~/bundles/jquery")
+    
+</head>
+<body>
+    
+    <div id="body" class="lrp_login" >
+    <div class="lrp_wrap_outer">
+        <h1>
+            重寄驗證信</h1>
+        <p>
+            請輸入您註冊會員資料時填寫的email帳號，經系統確認後，將重新寄送驗證信至電子郵件信箱。</p>
+        <div class="lrp_fill_data">
+            <dl class="lrp_member_data">
+                <dt>會員帳號</dt>
+                <dd>
+                    <input type="email" id="strEMail">
+                    <span class="lrp_text_remind" id="txtRemind">請輸入您註冊時使用的電子郵件，謝謝</span>
+                    <span class="lrp_text_alert" id="txtWarning"> </span>
+                </dd>
+            </dl>
+        </div>
+        <div class="lrp_wcenter">
+            <input type="button" class="lrp_btn_com_sub" value="確認送出" onclick="fSubmit();" onkeypress="fSubmit();"></div>
+    </div>
+</div>
+
+
+<!-- PopUp訊息視窗Start  請將此段貼入"_Layout"-->
+    <div id="PopArea" class="lrp_popup_wrap" style="display: none;">
+        <div class="lrp_popup">
+            <span class="lrp_popup_btn_close" title="close" onclick="ClosePop();"></span>
+            <div class="lrp_wrap_inner">
+                <h4 id="PopTitle">
+                    訊息視窗</h4>
+                <input id="hidGotoURL" type="hidden" />
+                <p id="PopMessage">
+                </p>
+            </div>
+            <div class="lrp_wcenter">
+                <input type="button" class="lrp_btn_com_sub" value="確認" onclick="ClosePop();" /></div>
+        </div>
+    </div>
+    <!-- PopUp訊息視窗End -->
+
+
+    
+</body>
+</html>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#txtWarning').hide();
+    });
+
+
+
+
+
+    //按下"確認送出"
+    function fSubmit() {
+        var boxEmail = $('#strEMail');
+        var alert_feild = $('#txtWarning');
+
+        if (boxEmail.val() == "") {
+            //若空白
+            $('#txtRemind').show();
+            $('#txtWarning').hide();
+
+            alert_feild.html('請輸入您註冊時使用的電子郵件，謝謝');
+            boxEmail.focus();
+        } //End 若空白
+        else if (!boxEmail.val().match(/^([a-zA-Z0-9_\-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/)) {
+            //若不符合E-mail格式
+            $('#txtRemind').hide();
+            $('#txtWarning').show();
+
+            alert_feild.html('電子郵件格式錯誤，請重新輸入，謝謝!');
+            boxEmail.focus();
+        } //End 若不符合E-mail格式
+        else {
+            //判斷電子郵件是否存在於SE_Member以及存取其註冊資料
+            fEmailExist();
+        }
+
+    } //End fSubmit()
+
+
+
+
+
+
+
+    //判斷電子郵件是否存在於SE_Member以及存取其註冊資料(符合條件則寄信)
+    function fEmailExist() {
+
+        var boxEmail = $('#strEMail');
+        var alert_feild = $('#txtWarning');
+
+        //判斷條件用
+        var isExist = false;
+        var isActivate = false;
+        var isActive = true;
+
+        //寄信所需之資料
+        var strEMail = "";
+        var strName = "";
+        var strMemberID = "";
+        var strActivateCode = "";
+
+        $.ajax({
+            url: '@Url.Action("CheckEmail", "Register", new { area = "Register" })',
+            data: { inputEmail: $('#strEMail').val() },
+            type: 'POST',
+            async: false, //true的話，程式會不等'success'執行完就先跑$.ajax之下的東西
+            cache: true,
+            dataType: 'json',
+            success: function (re) {
+
+
+                isExist = re.isExist;
+                isActivate = re.isActivate;
+                isActive = re.isActive;
+                strEMail = re.strEMail;
+                strName = re.strName;
+                strMemberID = re.strMemberID;
+                strActivateCode = re.strActivateCode;
+
+            }
+        });          //End ajax
+
+        if (!isExist) {
+            alert_feild.html('輸入電子郵件不存在，請重新輸入');
+            $('#txtRemind').hide();
+            $('#txtWarning').show();
+            boxEmail.focus();
+        } //End if(isExist)        
+        else if (!isActive) {
+            alert_feild.html('您的會員會籍已失效，若仍想繼續享有會員權益，請重新進行註冊成為新會員，謝謝您');
+            $('#txtRemind').hide();
+            $('#txtWarning').show();
+        } //End if (!isActive)
+        else if (isActivate) {
+            alert_feild.html('帳號已開通，請勿重複驗證，謝謝！');
+            $('#txtRemind').hide();
+            $('#txtWarning').show();
+            boxEmail.focus();
+        } //End if (isActivate)
+        else {
+
+
+
+            $.ajax({
+                url: '@Url.Action("actSubmitResendEmail", "Register", new { area = "Register" })',
+                data: { email: strEMail, name: strName, strMemberID: strMemberID, strActivateCode: strActivateCode },
+                type: 'POST',
+                async: false, //true的話，程式會不等'success'執行完就先跑$.ajax之下的東西
+                cache: true,
+                success: function (re) {
+                    if (re) {
+                        // alert("系統將立即重寄Email驗證信給您，為確保您各項會員權益，請儘速完成驗證開通，謝謝!\n(提醒您: 請同步檢查您的垃圾信件匣)");
+
+                        //跳出成功訊息
+                        OpenPop("", "系統將立即重寄Email驗證信給您，為確保您各項會員權益，請儘速完成驗證開通，謝謝!\n(提醒您: 請同步檢查您的垃圾信件匣)",
+                         '@Url.Action("Index", "Home", new { area = "" })');
+
+
+                    }
+                    else {
+                        OpenPop("", "錯誤");
+                    }
+                }
+            });               //End ajax
+
+            
+
+        } //End else
+
+    } //End fIsExist
+
+
+
+
+
+    //【開始貼入_Layout】
+    //開啟PopUp訊息視窗
+    //Tital:訊息視窗標題，沒有就預設
+    //Message:訊息視窗內文
+    //gotoURL:關閉訊息視窗後，需導向的頁面網址，空值就不導頁
+    function OpenPop(Title, Message, gotoURL) {
+        if (Title != "") {
+            $("#PopTitle").html(Title);
+        }
+        if (gotoURL != "") {
+            $("#hidGotoURL").val(gotoURL);
+        }
+
+        $("#PopMessage").html(Message);
+        $("#PopArea").show();
+    }
+
+    //關閉PopUp訊息視窗，並在關閉後初始化PopUp視窗
+    function ClosePop() {
+        $("#PopTitle").html("訊息視窗");
+        $("#PopMessage").html('');
+        $("#PopArea").hide();
+        if ($("#hidGotoURL").val() != "") {
+            window.location = $("#hidGotoURL").val();
+        }
+    }
+    //【停止貼入_Layout】
+
+
+</script>

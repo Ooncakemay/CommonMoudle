@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DBAutoLoader說明文件</title>
+</head>
+<body>
+<div class="tr_bq">
+<span style="color: #45818e;">DBAutoLoader</span>放在DA底下，Model和Helper都要引用DA</div>
+<blockquote class="tr_bq">
+<span style="color: blue;">using </span>com.telexpress.Data.DA;</blockquote>
+Helper範例：<br />
+在Helper的用法如以下範例，原本要一個一個寫屬性的地方用<span style="color: #45818e;">DBAutoLoader</span>.AutoFillIn&lt;<b><i><span style="color: orange;">ModelName</span></i></b>&gt;(p)取代。<br />
+<div>
+<blockquote class="tr_bq">
+<span style="color: blue;">public static</span>&nbsp;<span style="color: #45818e;">List</span>&lt;<span style="color: #45818e;">KMAuditingArticle</span>&gt;&nbsp;SelectToAuditArticle(<span style="color: blue;">string&nbsp;</span>keyword, <span style="color: blue;">int </span>intOS,&nbsp;<span style="color: blue;">string&nbsp;</span>strLangCode)<br />{<br />&nbsp; &nbsp;&nbsp;<span style="color: #45818e;">List</span>&lt;<span style="color: #45818e;">KMAuditingArticle</span>&gt; retval = new&nbsp;<span style="color: #45818e;">List</span>&lt;<span style="color: #45818e;">KMAuditingArticle</span>&gt;();<br />&nbsp; &nbsp; <span style="color: blue;">string </span>condition = GetCondition(keyword);<br />&nbsp; &nbsp; <span style="color: #45818e;">DataAccess </span>da =&nbsp;<span style="color: blue;">new&nbsp;</span><span style="color: #45818e;">DAProvider</span>().GetDA();<br />&nbsp; &nbsp; <span style="color: #45818e;">List</span>&lt;<span style="color: #45818e;">SqlParameter</span>&gt; param =&nbsp;<span style="color: blue;">new&nbsp;</span><span style="color: #45818e;">List</span>&lt;<span style="color: #45818e;">SqlParameter</span>&gt;();<br />&nbsp; &nbsp; param.Add(<span style="color: blue;">new </span><span style="color: #45818e;">SqlParameter</span>(<span style="color: #660000;">"@condition"</span>, condition));<br />&nbsp; &nbsp; param.Add(<span style="color: blue;">new&nbsp;</span><span style="color: #45818e;">SqlParameter</span>(<span style="color: #660000;">"@intOS"</span>, intOS));<br />&nbsp; &nbsp; param.Add(<span style="color: blue;">new&nbsp;</span><span style="color: #45818e;">SqlParameter</span>(<span style="color: #660000;">"@strLangCode"</span>, strLangCode));<br />&nbsp; &nbsp; try<br />&nbsp; &nbsp; {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span style="color: #45818e;">DataTable </span>dt = da.RunQuery(<span style="color: #660000;">"SelectToAuditArticle"</span>, param.ToArray());<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;retval = (<span style="color: blue;">from </span>p <span style="color: blue;">in </span>dt.Select()<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;">select </span><span style="color: #45818e;">DBAutoLoader</span>.AutoFillIn&lt;<span style="color: #45818e;">KMAuditingArticle</span>&gt;(p)).ToList();<br />&nbsp; &nbsp; }<br />&nbsp; &nbsp; catch (<span style="color: #45818e;">Exception </span>e)<br />&nbsp; &nbsp; {<br />&nbsp; &nbsp; }<br />&nbsp; &nbsp; <span style="color: blue;">return </span>retval;<br />}</blockquote>
+Model範例：<br />
+在Model中要用到<span style="color: #45818e;">DBAutoLoader</span>的屬性上加[<span style="color: #45818e;">DBAutoLoad</span>]標籤就可直接使用並從object轉換到自己要的屬性，
+<br/>若需要更複雜的轉換可以寫自定義方法並在<span style="color: #45818e;">DBAutoLoad</span>後面加上(LoadFunc = "<b><i><span style="color: orange;">MethodName</span></i></b>")，如以下範例。<br />
+<blockquote>
+<span style="color: blue;">public class</span> <span style="color: #45818e;">KMAuditingArticle</span>{<br />&nbsp; &nbsp; &nbsp; &nbsp; [<span style="color: #45818e;">DBAutoLoad</span>]<br />&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color: blue;">public&nbsp;</span><span style="color: blue;">int&nbsp;</span>rowNumber {&nbsp;<span style="color: blue;">get</span>;&nbsp;<span style="color: blue;">set</span>;&nbsp;}</blockquote>
+<blockquote>
+&nbsp; &nbsp; &nbsp; &nbsp; [<span style="color: #45818e;">DBAutoLoad</span>]<br />&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color: blue;">public&nbsp;</span><span style="color: blue;">int&nbsp;</span>intAnswerCode {&nbsp;<span style="color: blue;">get</span>;&nbsp;<span style="color: blue;">set</span>;&nbsp;}&nbsp;</blockquote>
+<blockquote>
+&nbsp; &nbsp; &nbsp; &nbsp; [<span style="color: #45818e;">DBAutoLoad</span>]<br />&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color: blue;">public&nbsp;</span><span style="color: blue;">string&nbsp;</span>strAnswerCode {&nbsp;<span style="color: blue;">get</span>;&nbsp;<span style="color: blue;">set</span>;&nbsp;}&nbsp;</blockquote>
+<blockquote>
+&nbsp; &nbsp; &nbsp; &nbsp; [<span style="color: #45818e;">DBAutoLoad</span>]<br />&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color: blue;">public&nbsp;</span><span style="color: blue;">string&nbsp;</span>strAnswerCode_DId {&nbsp;<span style="color: blue;">get</span>;&nbsp;<span style="color: blue;">set</span>;&nbsp;}&nbsp;</blockquote>
+<blockquote>
+&nbsp; &nbsp; &nbsp; &nbsp; [<span style="color: #45818e;">DBAutoLoad</span>]<br />&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color: blue;">public&nbsp;</span><span style="color: blue;">string&nbsp;</span>strAnswerDesc {&nbsp;<span style="color: blue;">get</span>;&nbsp;<span style="color: blue;">set</span>;&nbsp;}&nbsp;</blockquote>
+<blockquote>
+&nbsp; &nbsp; &nbsp; &nbsp; [<span style="color: #45818e;">DBAutoLoad</span>(LoadFunc = "<span style="color: #660000;">GetFirst88Words</span>")]<br />&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color: blue;">public&nbsp;</span><span style="color: blue;">string&nbsp;</span>strAnswerHTMLDesc {&nbsp;<span style="color: blue;">get</span>;&nbsp;<span style="color: blue;">set</span>;&nbsp;}&nbsp;</blockquote>
+<blockquote>
+&nbsp; &nbsp; &nbsp; &nbsp; [<span style="color: #45818e;">DBAutoLoad</span>]<br />&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color: blue;">public&nbsp;</span><span style="color: #45818e;">DateTime&nbsp;</span>dtmUpdate {&nbsp;<span style="color: blue;">get</span>;&nbsp;<span style="color: blue;">set</span>;&nbsp;}&nbsp;</blockquote>
+<blockquote>
+&nbsp; &nbsp; &nbsp; &nbsp; [<span style="color: #45818e;">DBAutoLoad</span>]<br />&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color: blue;">public&nbsp;</span><span style="color: blue;">string&nbsp;</span>strUpdator {&nbsp;<span style="color: blue;">get</span>;&nbsp;<span style="color: blue;">set</span>;&nbsp;}&nbsp;</blockquote>
+<blockquote>
+&nbsp; &nbsp; &nbsp; &nbsp; [<span style="color: #45818e;">DBAutoLoad</span>]<br />&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color: blue;">public&nbsp;</span><span style="color: blue;">string&nbsp;</span>strLangCode {&nbsp;<span style="color: blue;">get</span>;&nbsp;<span style="color: blue;">set</span>;&nbsp;}&nbsp;</blockquote>
+<blockquote>
+&nbsp; &nbsp; &nbsp; &nbsp; [<span style="color: #45818e;">DBAutoLoad</span>]<br />&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color: blue;">public&nbsp;</span><span style="color: blue;">int&nbsp;</span>intOS {&nbsp;<span style="color: blue;">get</span>;&nbsp;<span style="color: blue;">set</span>;&nbsp;}&nbsp;</blockquote>
+<blockquote>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color: blue;">public&nbsp;</span><span style="color: blue;">string&nbsp;</span>GetFirst88Words(<span style="color: blue;">string</span><span style="color: blue;">&nbsp;</span>data)<br />&nbsp; &nbsp; &nbsp; &nbsp; {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color: blue;">string&nbsp;</span>output = RemoveHTMLTag(data).Trim();<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color: blue;">int&nbsp;</span>wordsLength = 88;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;">if </span>(output.Length &lt; wordsLength)<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color: blue;">return&nbsp;</span>output;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;">else</span><br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color: blue;">return&nbsp;</span>output.Substring(0, wordsLength) + <span style="color: #660000;">" ..."</span>;<br />&nbsp; &nbsp; &nbsp; &nbsp; }&nbsp;</blockquote>
+<blockquote>
+&nbsp; &nbsp; &nbsp; &nbsp; <span style="color: blue;">private&nbsp;</span><span style="color: blue;">string&nbsp;</span>RemoveHTMLTag(<span style="color: blue;">string</span><span style="color: blue;">&nbsp;</span>htmlSource)<br />&nbsp; &nbsp; &nbsp; &nbsp; {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<span style="color: blue;">return&nbsp;</span><span style="color: #45818e;">Regex</span>.Replace(htmlSource, <span style="color: #660000;">@"\s*&lt;[^&gt;]*&gt;\s*"</span>, <span style="color: #45818e;">String</span>.Empty);<br />&nbsp; &nbsp; &nbsp; &nbsp; }<br />}&nbsp;</blockquote>
+需要注意的是因為在Model裡每個有加上[<span style="color: #45818e;">DBAutoLoad</span>]標籤的屬性<span style="color: #45818e;">DBAutoLoader</span>都會去找，所以在SQL指令裡面都一定要select到，不然會出錯。</div>
+</body>
+</html>

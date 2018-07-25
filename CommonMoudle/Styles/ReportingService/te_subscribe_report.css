@@ -1,0 +1,104 @@
+@charset "utf-8";
+/*
+* @data 2015-7-15
+* Author: Green
+--------------------------------
+   1.
+   2.
+
+--------------------------------
+*/
+
+
+body { background: #f3f2ee url(../images/forum_bg.png) no-repeat; font: normal 14px/1.4em "微軟正黑體", "微软雅黑", "Microsoft JhengHei", "Microsoft YaHei", "verdana", "Arial"; color: #666;}
+input,textarea,select { border: solid 1px #ccc; color: #777; padding: 3px; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; font: normal 1em/1.4em "微軟正黑體", "微软雅黑", "Microsoft JhengHei", "Microsoft YaHei", "verdana", "Arial";}
+input[type="checkbox"] , input[type="radio"] { width: 18px; background: #fff; height: 18px; background: #fff; border-radius: 3px; vertical-align: middle; margin: 0 5px;}
+input[type=date], input[type=time], input[type=datetime-local], input[type=month] { line-height: 1.4em;}
+
+/* TECRMheader */
+.TECRMheader { background-color: #fff; }
+.TECRMheader-nav ul:hover { cursor: pointer; }
+.TECRMheader-nav ul.on { background: url(../images/header_2.png) repeat-x 0 -32px; }
+.TECRMheader-path { font-size: 12px; line-height: 20px; height: 20px; color: #6f6f6f;}
+.TECRMheader-path a { color: #6f6f6f;}
+
+/* resultArea */
+.ResultContent { width: 1200px; padding: 10px 10px 20px; margin: 15px auto 0 auto; overflow: hidden; font: normal 14px/1.6em "微軟正黑體", "微软雅黑", "Microsoft JhengHei", "Microsoft YaHei", "verdana", "Arial"; color: #666; word-break:break-all; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
+.ResultContent a { text-decoration: none; color: #555; font: normal 14px/1.6em "Microsoft JhengHei", "Microsoft YaHei";}
+.ResultContent a:hover { color: #69a6b1;}
+.shadow { background: #fff; -webkit-box-shadow: 0 2px 5px #ccc; -moz-box-shadow: 0 2px 5px #ccc; box-shadow: 0 2px 5px #ccc; margin-bottom: 30px;}
+
+/* ==按鈕== */
+input[type="submit"].btn_o { display: block; background: #ef841b; border: 0; border-radius: 3px; color: #fff; padding: 0.3em 1.5em; font: normal 1.2em/1.6em "Microsoft JhengHei"; text-align: center; }
+input[type="submit"].btn_o:hover { background: #0b9caf; position:relative; top:1px; left: 1px;}
+
+.mysubscribe { text-align: right;}
+.mysubscribe a { display: inline-block; background: #ca141d; padding: 0.3em 1.5em; color: #fff; font-size: 1.1em; border-radius: 10px 10px 0 0; box-shadow: inset 0px -2px 3px rgba(0,0,0,0.2);}
+.mysubscribe a:hover { color: #fff; padding: 0.4em 1.5em; margin-top: -0.2em; background: #ff8133;}
+.mysubscribe a::before { content: ""; display: inline-block;
+    width: 32px;
+    height: 21px;
+    background-repeat: no-repeat;
+    margin: 0 5px -6px -2px;
+    background: url(../images/te_subscribe_report_icon.png) 0px 0px;}
+
+/* resultArea */
+.categoryArea { width: 100%; padding: 7px 10px 7px 0; margin: 0 0 0 -10px; border-bottom: 1px solid #ce6829; background: #ff8133; position: relative; z-index: 2; color: #fff;}
+.categoryArea:after{ content: ''; display: block; width: 0; height: 0; position: absolute; bottom: -11px; left: -10px; z-index: 1;
+                     border-top: 0px solid transparent; border-bottom: 10px solid transparent; border-left: 10px solid transparent; border-right: 10px solid #a95522;}
+.filterArea { padding: 10px; color: #666; background: #f5efec; min-height: 65px; position: relative; overflow: auto;}
+.filterArea:before, .filterArea:after {content: ''; display: block; width: 100%; height: 1px; position: absolute; left: 0; bottom: 4px;}
+.filterArea:before{ background: #d4d4d4;}
+.filterArea:after{ background: #fff; bottom: 3px;}
+.filterArea ul { overflow: auto; width: 1020px; float: left;}
+.filterArea ul li { margin: 5px 10px; height: 30px; float: left;}
+.filterArea input[type="submit"].btn_o { float: right; margin: 15px 18px;}
+
+
+.content { padding: 10px 20px;}
+.content input[type="button"].export { font: normal 1.1em/1.5em "Microsoft JhengHei","Microsoft YaHei";}
+.content h3 { margin: 10px; color: #69a6b1;}
+.content h3 select { margin: 0 10px;}
+
+.pop_mask { position: absolute; z-index: 190; width: 100%; height: 100%; top: 0; left: 0; background: rgba(0,0,0,0.5);}
+.subscribe_pop { width: 520px; min-height: 360px; background: #fff; border: solid 1px #ccc; margin: 50px 50%; left: -260px; top: 0; position: fixed; z-index: 200; box-shadow: 0px 0px 5px rgba(0,0,0,0.3); -moz-box-shadow: 0px 0px 5px rgba(0,0,0,0.3); -webkit-box-shadow: 0px 0px 5px rgba(0,0,0,0.3);}
+.subscribe_pop h2 { display: block; height: 35px; background: #f5efec; color: #322d2a; text-align: center; font: normal 1.3em/35px "Microsoft JhengHei"; padding-left: 8px; border-bottom: solid 1px #d4d4d4; position: relative;}
+.subscribe_pop h2::after { content: ""; width: 100%; display: block; height: 4px; background: #f5efec; border-top: solid 1px #fff; position: absolute;left: 0; bottom: -6px;}
+.subscribe_pop h2 span.btn_close { display: block; width: 25px; height: 25px; top:5px; right: 5px; background: #ef841b; border-radius: 50%; -moz-border-radius: 50%; -webkit-border-radius: 50%; position: absolute;}
+.subscribe_pop h2 span.btn_close a { display: block; width: 25px; height: 25px; }
+.subscribe_pop h2 span.btn_close a::before { content: ""; display: block; width: 3px; height: 15px; background: #fff; top: 5px; left: 11px; position: absolute;pointer-events: none; transform:rotate(45deg);-moz-transform:rotate(45deg);-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);-sand-transform:rotate(45deg);}
+.subscribe_pop h2 span.btn_close a::after  { content: ""; display: block; width: 15px; height: 3px; background: #fff; top: 11px; left: 5px; position: absolute;pointer-events: none; transform:rotate(225deg);-moz-transform:rotate(225deg);-webkit-transform:rotate(225deg);-ms-transform:rotate(225deg);-sand-transform:rotate(225deg);}
+.subscribe_pop ul { margin: 15px 40px; }
+.subscribe_pop ul li { padding: 10px 20px; border-bottom: dotted 1px #eee;}
+.subscribe_pop ul li label { margin-right: 20px;}
+.subscribe_pop ul li input,.subscribe_pop ul li select { margin: 0 5px;}
+.subscribe_pop ul li:last-child { text-align: center; border: none;}
+.subscribe_pop ul li:last-child input { display: inline-block;}
+
+/* JQuery Select*/
+section {display: inline-block;}
+.col-md-4 select{ width: 300px; margin: 0 5px; color: #777; border: solid 1px #ccc; }
+.img-flag { height: 15px; width: 18px;}
+
+
+
+
+.content table { width: 100%; text-align: left; word-break:break-all;}
+.content table tr { border-bottom: solid 1px #eee;}
+.content table tr:nth-of-type(odd) { background: #f2f2f2;}
+.content table th { padding: 10px 5px; background: #f5efec; border-top: solid 3px #ddd; }
+.content table td { padding: 10px 5px;}
+.content .table_list { width: 1140px; height: 400px; overflow: auto;}
+.content table.list tr:nth-of-type(odd) { background: #FFF;}
+.content table.list tr:nth-of-type(even) { background: #f2f2f2;}
+.content table.list th, .content .table_list td { width: 120px;}
+.content table.list th:nth-of-type(4), .content .table_list td:nth-of-type(4) { width: 180px;}
+
+
+.content ul.page { text-align: center; margin: 40px 0;}
+.content ul.page li { display: inline-block; font-size: 1em; margin: 0 0.5em; background: #f5efec; padding: 0.2em 0.6em; }
+.content ul.page li.current { background: #ef841b; color: #fff;}
+.content ul.page li a { color: #888; text-decoration: none;}
+.content ul.page li a:hover { color: #ef841b; }
+.content ul.page li:first-child , .ResultContent ul.page li:last-child { padding: 0.2em 1em; }
+

@@ -1,0 +1,11 @@
+﻿<pre>
+【模組名稱】
+BS_Langue
+
+【功能】
+取得BS_Langue內資料
+
+【建置方法】
+1.LangueHelper及LangueModel加入專案後，把langue.xml內容貼入DA.xml
+2.利用此方法可取得內容 List<LangueModel> List = new List<LangueModel>();  List = LangueHelper.GetLanguages();
+</pre>

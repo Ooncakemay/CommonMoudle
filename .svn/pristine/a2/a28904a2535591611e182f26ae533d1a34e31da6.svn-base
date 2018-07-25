@@ -1,0 +1,31 @@
+﻿<pre>
+【模組名稱】
+Html編輯器
+
+【功能】
+1.html編輯器可做一些字型修改或超連結之類的
+
+
+【建置方法】
+1.將"ckeditor.cshtml"中指定的內容,並引入Scripts/ckeditor 
+
+view部分:
+&lt;div id="editor"&gt;
+    &lt;/div&gt;
+      &lt;div id="strComment" style="display:none"&gt;
+		&lt;/div&gt;
+script:
+   var editor, html = '';
+    $(function () {
+
+        var config = {};
+        editor = CKEDITOR.appendTo('editor', config, html);
+    });
+    
+ 【使用方法】
+  需要抓編輯器的內容 使用  var source_comment=$('#strComment').html(editor.getData());
+  傳入controller需用 strComment:encodeURI(source_comment)
+   controller :
+   strComment = Uri.UnescapeDataString(strComment);
+ 
+</pre>

@@ -1,0 +1,50 @@
+﻿<pre>
+【模組名稱】
+ReportingService呼叫
+
+【功能】
+傳參數撈取ReportingService發佈的報表，顯示在畫面上
+
+【建置方法】
+1.Nuget安裝<font color="Sky_Blue">MicrosoftReportviewerWebforms</font>
+2.將ReportingService區域加入專案(namespace要修改)
+3.RouteConfig.cs增加<font color="Sky_Blue">routes.IgnoreRoute("{resource}.aspx/{*pathInfo}");</font>
+4.SQLXML增加ReportingService.xml(ConnectingPool視專案而定)
+5.Web.config在<font color="Sky_Blue">&ltappSettings&gt</font>底下增加(看需求解除註解)
+        &lt!--ReportingService_TEST--&gt
+        &ltadd key="ReportServerUrl" value="http://192.168.90.19/ReportingSV" /&gt
+        &ltadd key="ReportPath" value="/TestArea/MJN/{0}" /&gt
+        &ltadd key="ReportUser" value="RP_User01" /&gt
+        &ltadd key="ReportPass" value="User1@@#$" /&gt
+        &ltadd key="ReportArea" value="bpoTPEDB1" /&gt
+        &lt!--ReportingService_正式--&gt
+        &lt!--&ltadd key="ReportServerUrl" value="http://192.168.90.21/ReportServer" /&gt
+        &ltadd key="ReportPath" value="/MJN/{0}" /&gt
+        &ltadd key="ReportUser" value="MJNCRM_RPUser" /&gt
+        &ltadd key="ReportPass" value="User1@@#$" /&gt
+        &ltadd key="ReportArea" value="bpoTPEDB3" /&gt--&gt
+  在<font color="Sky_Blue">&ltsystem.web&gt</font>底下增加
+        &lt!--ReportingService--&gt
+        &lthttpHandlers&gt
+            &ltadd verb="*" path="Reserved.ReportViewerWebControl.axd" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /&gt
+        &lt/httpHandlers&gt
+        &ltcustomErrors mode="Off" /&gt
+        &ltcompilation debug="true" targetFramework="4.0"&gt
+            &ltassemblies&gt
+                &ltadd assembly="Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845DCD8080CC91" /&gt
+                &ltadd assembly="Microsoft.ReportViewer.Common, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845DCD8080CC91" /&gt
+                &ltadd assembly="Microsoft.Build.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=B03F5F7F11D50A3A" /&gt
+                &ltadd assembly="System.Management, Version=4.0.0.0, Culture=neutral, PublicKeyToken=B03F5F7F11D50A3A" /&gt
+            &lt/assemblies&gt
+        &lt/compilation&gt
+  在<font color="Sky_Blue">&lthandlers&gt</font>底下增加
+        &ltadd name="ReportViewerWebControlHandler" preCondition="integratedMode" verb="*" path="Reserved.ReportViewerWebControl.axd" type="Microsoft.Reporting.WebForms.HttpHandler, Microsoft.ReportViewer.WebForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" /&gt
+6.Style增加ReportingService資料夾跟te_subscribe_report.css、te_subscribe_report_reset.css
+7.BundleConfig.cs增加            
+        bundles.Add(new StyleBundle("~/Styles/te_subscribe_report").Include(
+        "~/Styles/ReportingService/te_subscribe_report_reset.css",
+        "~/Styles/ReportingService/te_subscribe_report.css"));
+
+【使用方法】
+修改SampleReport.cshtml上面<font color="Sky_Blue">ReportName</font>的value (名稱決定要撈的報表)
+</pre>

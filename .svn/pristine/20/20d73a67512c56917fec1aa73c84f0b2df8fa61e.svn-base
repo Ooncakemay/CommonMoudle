@@ -1,0 +1,14 @@
+﻿@model List<CommonMoudle.Areas.AutoComplete.Models.AutoCompleteModel>
+@Scripts.Render("~/bundles/jquery.autocomplete")
+
+<ul>
+    @if (ViewBag.searchcount > 0)
+    {
+        foreach (var row in Model)
+        {       
+        <li class="result"> <a onclick="giveVal('@row.strAddress')" style="cursor:pointer">@row.strAddress </a></li> 
+        
+        }
+    }
+    
+</ul>

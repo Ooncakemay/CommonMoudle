@@ -1,0 +1,26 @@
+﻿<pre>
+【模組名稱】
+loading畫面
+
+【功能】
+觸發時會把畫面填滿不可點擊
+
+
+【建置方法】
+將"loading.cshtml"中指定的內容貼入專案的"_Layout"中,並引入Styles/loading中的css
+
+view部分:
+&lt;div class="temcs_popup_wrap" id="Loading" style="display:none;"&gt;
+        &lt;div class="te_loader04"&gt;&lt;/div&gt;
+    &lt;/div>
+
+script:
+ $('#Loading').show();
+
+     setTimeout(function () {
+         $('#Loading').hide();
+     }, 5000);
+【使用方法】
+在需要擋住頁面功能時使用$('#Loading').show();
+不需要時使用$('#Loading').hide();
+</pre>

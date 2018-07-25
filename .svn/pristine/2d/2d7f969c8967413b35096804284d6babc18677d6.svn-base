@@ -1,0 +1,50 @@
+﻿
+【模組名稱】
+城市、鄉鎮市區連動下拉選單
+
+【功能】
+1.產生城市、鄉鎮市區連動下拉選單
+2.利用郵遞區號回推城市代碼
+
+
+【建置方法】
+將本Area加入專案
+
+
+【使用方法】
+將以下內容加入需要選單的View中:
+Html下拉選單初始化=>
+
+ 
+<select id="strCity" name="strCity" onchange="fCityChange($(this));">@Html.Action("CityList", "CitySelect", new { area = "CitySelect" })
+</select>
+<select id="intZipCode" name="intZipCode">@Html.Action("AreaList", "CitySelect", new { area = "CitySelect", intCityCode = 0 })
+</select>
+ 
+
+
+javascript部分，選擇城市後改變區域選單內容=>
+<script type="text/javascript">
+    function fCityChange(varCityObj) {
+       
+
+        var varIntCityCode = varCityObj.val();
+
+        $.ajax({
+            url: '@Url.Action("AreaList", "CitySelect", new { area = "CitySelect" })',
+            data: { intCityCode: varIntCityCode },
+            type: "POST",
+            async: true,
+            cache: true,
+            success: function (list) {
+                $('#intZipCode option').remove();
+                $('#intZipCode').append(list);
+
+            }
+        });
+    } // fCityChange()
+
+</script>
+
+若需以郵遞區號獲得城市代碼
+叫用GetCityCodeByZipCode(郵遞區號)

@@ -1,0 +1,7 @@
+﻿@{
+    ViewBag.Title = "Parameter";
+}
+參數預設為Classification = SYSTEM,ParamCode = IndexTitle<br />
+
+取得的值: @ViewBag.ParamValue <br />
+取得的描述: @ViewBag.ParamDesc

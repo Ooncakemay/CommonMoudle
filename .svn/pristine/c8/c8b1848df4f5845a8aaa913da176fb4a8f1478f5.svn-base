@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <ConnectingPool>
+    <!--Test-->
+    <Connect Name="LRP" ConnectingString="Xy/C/mqJJLIvLvkruY/qv+oGtfghX2AUd9C4Nl25+i5CQoSkPfOHcJZYeCQuQLTv20DpzZVjXElYw0FvHVgKUrmEbAIWXaSTpdP8gGNwyybepfEzF93k60UBAah90hZhdqGPaxgF+Wx7lvvin7u/RYR35VmwBp5HSDLhnSPjUz9iJZ+JiMUAG1rGGspwiHB0U+rEJ0C375Vca4k+X+2fqCNZHMQMSjrI89cPVTdZEj4=" />
+
+    <!--QA--><!--
+    <Connect Name="LRP" ConnectingString="Xy/C/mqJJLIvLvkruY/qv+oGtfghX2AUd9C4Nl25+i5CQoSkPfOHcJZYeCQuQLTv20DpzZVjXElYw0FvHVgKUrmEbAIWXaSTpdP8gGNwyybk+n30qJ2uWg4ryWjR/Kc48TH3o2vSaIv4IDos8k/mkZW1uaS2eRGYqJwkV4axRiRIu6Cyz8aZDgGd1Bg4493c98is9iVo6AA0D7GSbiBh6f1e1v0LoB36RLkN6urX17k=" />-->
+    
+    <!--Inventalk-->
+    <Connect Name="LRP" ConnectingString="Xy/C/mqJJLIvLvkruY/qv+oGtfghX2AUd9C4Nl25+i66wwvkXNfjfxx2qHs9SOfkUbZDZ1syZFfVi0zH/wD2ThoubhniNOVDUYDMbFVdmxGMDc4XMv1t37bTPu36bimnHLlYQ/0T29MZXW0Owxp7c9PwZV56y7XE60qS3RE3S2OwQUUWmy8G4yZyGQvtEm0JkAhKbXx8MrBH56GmIowta7WLjlsWpOOkrMWeDmUnAjk=" />
+
+  </ConnectingPool>
+  <SQLCommands>
+    
+    <!-- 檢查信箱是否已註冊 Author:Chiahui Update:Chiahui LastUpdateDate:2016/5/12 -->
+    <SQL ID="CheckMailExisted" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+        SELECT strMemberID,strEMail             
+        FROM  SE_Member
+        WHERE strEMail = @strEMail
+      ]]>
+    </SQL>
+
+    
+    <!-- 檢查名字+手機是否已被註冊 Author:Chiahui Update:Chiahui LastUpdateDate:2016/5/12 -->
+    <SQL ID="CheckNameMobileExisted" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+        SELECT strMemberID,strName,strMobile             
+        FROM  SE_Member
+        WHERE strName = @strName AND strMobile = @strMobile
+      ]]>
+    </SQL>
+
+
+    <!-- 將註冊資料新增進SE_Member Author:ChiaHui Update:ChiaHui LastUpdateDate:2016/7/5 -->
+    <SQL ID="InsertNewMember" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+      
+      SET XACT_ABORT ON
+      Begin transaction   
+      
+      DECLARE @newSeqNo nvarchar(10)	  
+      DECLARE @strContactID nvarchar(10)
+      --先檢查是否有重複的信箱
+       IF((SELECT count(*) 
+            FROM SE_Member
+            WHERE strEMail = @strEMail
+            GROUP BY strMemberID) > 0)
+        BEGIN
+	        SELECT 'Repeat'
+        END 
+      ELSE 
+        BEGIN 
+         --新增註冊資料
+          INSERT SE_Member  (strMemberID,strEMail,strPassword,strName,strMobile,strPhone,dtmBirth,strGender,intZipCode,      
+              strCity,strZone,strAddress,ysnPolicy,strJoinTypeCode,strJoinListCode,strPicture,strMemberType,ysnActivate,strActivateCode,
+              ysnActive,dtmActivated,dtmExpired,dtmVIPDate,ysnDM,ysnFax,ysnEmail,ysnSMS,ysnTel,dtmCreate,strWHO,
+              dtmUpdate,strDisplayName,strPhoneCity,strMemo)
+
+          VALUES  (newid(),@strEMail,@strPassword,@strName,@strMobile,'',@dtmBirth,'',@intZipCode,
+              (SELECT strCity FROM BS_Zip WHERE intCityCode = @strCity AND intZipCode = @intZipCode),
+              (SELECT strArea FROM BS_Zip WHERE intZipCode = @intZipCode),
+              @strAddress,1,'','','','Guest',0,newid(),1,'','','',1,1,1,1,0,getdate(),'TECRM',getdate(),'','','')      
+      
+          --產生strContactID並更新
+		  SET @newSeqNo = @@IDENTITY
+		  SET @strContactID = 'LRP' + RIGHT(REPLICATE('0', 7) + @newSeqNo , 7) 
+
+		  UPDATE SE_Member
+		  SET strContactID = @strContactID
+		  WHERE intSeqNo = @newSeqNo
+
+		  SELECT strMemberID,strActivateCode
+		  FROM SE_Member
+		  WHERE intSeqNo = @newSeqNo
+        END
+       
+      Commit Transaction
+	    SET XACT_ABORT OFF
+      
+      ]]>
+    </SQL>
+
+
+    <!-- 新增Log_Member Author:ChiaHui Update:ChiaHui LastUpdateDate:2016/5/12 -->
+    <SQL ID="InsertLogMember" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+      SET XACT_ABORT ON
+      Begin transaction
+      
+      --插入Log_Member
+      INSERT Log_Member (strLogType,strLogWHO,dtmLogDate,strMemberID,strContactID,strEMail,strPassword
+      ,strName,strMobile,strPhone,dtmBirth,strGender,intZipCode,strCity,strZone,strAddress,ysnPolicy
+      ,strJoinTypeCode,strJoinListCode,strPicture,ysnActivate,strActivateCode,strMemberType,ysnActive
+      ,dtmActivated,dtmExpired,dtmVIPDate,ysnDM,ysnFax,ysnEmail,ysnSMS,ysnTel,strMemo,dtmCreate
+      ,strWHO,dtmUpdate,strDisplayName,strPhoneCity,strFacebookID)
+
+      SELECT @strLogType,@strLogWHO,getdate(),strMemberID,strContactID,strEMail,strPassword
+      ,strName,strMobile,strPhone,dtmBirth,strGender,intZipCode,strCity,strZone,strAddress
+      ,ysnPolicy,strJoinTypeCode,strJoinListCode,strPicture,ysnActivate,strActivateCode
+      ,strMemberType,ysnActive,dtmActivated,dtmExpired,dtmVIPDate,ysnDM,ysnFax,ysnEmail
+      ,ysnSMS,ysnTel,strMemo,dtmCreate,strWHO,dtmUpdate,strDisplayName,strPhoneCity
+      ,strFacebookID
+	    FROM SE_Member
+	    WHERE strMemberID = @strMemberID
+       
+       
+      Commit Transaction
+	    SET XACT_ABORT OFF
+
+
+      ]]>
+    </SQL>
+
+
+    <!-- 取得Log_Member by strMemberID Author:ChiaHui Update:ChiaHui LastUpdateDate:2016/5/13 -->
+    <SQL ID="GetLogEMailSend" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+        SELECT strMemberID,dtmCreate,intSendCnt,dtmSendDate,ysnSend,ysnActivate,ysnSendDone
+        
+        FROM Log_EmailSent
+        WHERE strMemberID = @strMemberID
+      ]]>
+    </SQL>
+    
+
+    <!-- 新增Log_EmailSent Author:ChiaHui Update:ChiaHui LastUpdateDate:2016/5/13 -->
+    <SQL ID="InsertLogEmailSent" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+        INSERT INTO Log_EmailSent 
+                (strMemberID,strEMAIL,dtmCreate,intSendCnt,dtmSendDate,
+                 ysnSend,ysnActivate,ysnSendDone)
+                 
+        VALUES (@strMemberID,@strEMAIL,GETDATE(),0,'',
+                'N',0,0)
+      ]]>
+    </SQL>
+
+    
+    <!-- 更新Log_EmailSent Author:ChiaHui Update:ChiaHui LastUpdateDate:2016/5/13 -->
+    <SQL ID="UpdateLogEmailSend" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+      
+        Declare @dtmSendDate DateTime 
+        Declare @ysnSend nvarchar(1)
+        Declare @ysnActivate bit
+        
+        --若有增加寄信次數，則更新dtmSendDate為現在時間
+        SET @dtmSendDate = CASE WHEN @AddCount>0 THEN GETDATE() ELSE (SELECT dtmSendDate FROM Log_EmailSent WHERE strMemberID = @strMemberID) END
+        --若有增加寄信次數，則更新ysnSend為'Y'
+        SET @ysnSend =  CASE WHEN @AddCount>0 THEN 'Y' ELSE (SELECT ysnSend FROM Log_EmailSent WHERE strMemberID = @strMemberID) END
+        --若有要將狀態改為已完成驗證，則更新ysnActivate、ysnSendDone為1
+        SET @ysnActivate = CASE WHEN @ChangeActivated = 1 THEN 1 ELSE (SELECT ysnActivate FROM Log_EmailSent WHERE strMemberID = @strMemberID) END
+
+        UPDATE Log_EmailSent
+        SET
+        intSendCnt = intSendCnt + @AddCount,
+        dtmSendDate = @dtmSendDate,
+        ysnSend = @ysnSend,
+        ysnActivate = @ysnActivate,
+        ysnSendDone = @ysnActivate
+        WHERE strMemberID = @strMemberID
+      ]]>
+    </SQL>
+
+
+    <!-- 以會員編號取得與開通驗證相關之會員資料 Author:ChiaHui Update:ChiaHui LastUpdateDate:2016/5/16 -->
+    <SQL ID="GetVerifyDataByID" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+        SELECT strMemberID,strEMail,strName,ysnActivate,strActivateCode,strMemberType,ysnActive
+        FROM SE_Member
+        WHERE strMemberID = @strMemberID 
+      ]]>
+    </SQL>
+
+
+    <!-- 以信箱取得與開通驗證相關之會員資料 Author:ChiaHui Update:ChiaHui LastUpdateDate:2016/5/16 -->
+    <SQL ID="GetVerifyDataByEmail" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+        SELECT strMemberID,strEMail,strName,ysnActivate,strActivateCode,strMemberType,ysnActive
+        FROM SE_Member
+        WHERE strEMail = @strEMail
+      ]]>
+    </SQL>
+
+
+    <!-- 更新會員主檔為已開通 Author:ChiaHui Update:ChiaHui LastUpdateDate:2016/5/13 -->
+    <SQL ID="ActivateMember" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+       
+        SET XACT_ABORT ON
+        Begin transaction
+       
+        UPDATE SE_Member
+        SET
+        ysnActivate = 1,
+        strMemberType = 'Normal',
+        dtmActivated = GETDATE(),
+        dtmExpired = '2300/12/31 23:59:59',
+        dtmUpdate = GETDATE()
+        WHERE strMemberID = @strMemberID
+
+        Commit Transaction
+        SET XACT_ABORT OFF
+      ]]>
+    </SQL>
+
+
+    <!-- 新增初始會籍歷程 Author:ChiaHui Update:ChiaHui LastUpdateDate:2016/5/13 -->
+    <SQL ID="NewMemberLifeCycle" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+       
+        SET XACT_ABORT ON
+        Begin transaction
+
+        INSERT SE_MemberLifeCycle
+        (strMemberID,strMemberType,intSeqNo,dtmStart,dtmEnd,curTotalAmount,intTotalCount,dtmUpdate,strMemo,strAdjustBy)
+        VALUES
+        (@strMemberID,'Normal',1,GETDATE(),'2300/12/31 23:59:59',0,0,GETDATE(),'','CRM')
+
+        Commit Transaction
+        SET XACT_ABORT OFF
+    
+      ]]>
+    </SQL>
+    
+  </SQLCommands>
+</root>

@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+    <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+    </head>
+    <body>
+        <header>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p class="site-title">@Html.ActionLink("Telexpress BPO常用模組", "Index", "Home")</p>
+                </div>
+                <div class="float-right">
+                    <nav>
+                     @*登入用開始*@
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        CommonMoudle.Areas.Login.Models.LoginModel loginInfo = new CommonMoudle.Areas.Login.Models.LoginModel();
+                        FormsIdentity id = (FormsIdentity)User.Identity;
+                        FormsAuthenticationTicket ticket = id.Ticket;
+                        loginInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<CommonMoudle.Areas.Login.Models.LoginModel>(ticket.UserData);
+                        String name = CommonMoudle.Areas.Login.Models.LoginHelper.GetMemberByMemberID(loginInfo.strMemberID).strName;
+                        <span class="member_name">Hi！@name</span>
+                        //@Html.Action("LoginMenu", "Menu", new { area = "Common", status = "AfterLogin" })
+                        <input type="hidden" id="strAccountID" value="@loginInfo.strMemberID" />
+                        <span><a href="@Url.Action("Logout", "Login", new { Area = "Login" })">登出</a></span>
+                    }
+                    else
+                    {
+                      <span><a href="@Url.Action("Login", "Login", new { Area = "Login" })">登入</a></span>
+                    }
+                    @*登入用結束*@
+                        <ul id="menu">
+                            <li>@Html.ActionLink("首頁", "Index", "Home")</li>
+                            <li>@Html.ActionLink("設計", "About", "Home")</li>
+                            <li>@Html.ActionLink("程式", "Contact", "Home")</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <div id="body">
+            @RenderSection("featured", required: false)
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+        </div>
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    <p>&copy; @DateTime.Now.Year - Telexpress BPO</p>
+                </div>
+            </div>
+        </footer>
+
+        @Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)
+    </body>
+</html>

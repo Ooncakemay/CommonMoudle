@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <title>報表</title>
+    @Styles.Render("~/Styles/te_subscribe_report")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+</head>
+<body>
+    <div style="text-align: center">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { target = "reportViewFrame", action = Url.Content("~/Areas/ReportingService/ReportForm/ReportForm.aspx") }))
+        {
+            @*<input type="hidden" id="ReportID" name="ReportID" value="499D2C4C-5C16-4491-8F4E-A11F6C088C32" />*@
+            <input type="hidden" id="ReportName" name="ReportName" value="RP_MJNCRM_Financial_VIP宅配抵購券" />
+            <div class="ResultContent">
+                <!--MainSection-->
+                @*            <div class="mysubscribe">
+                <a href="">我的订阅</a></div>*@
+                <div class="wrap shadow">
+                    <div class="categoryArea">
+                    </div>
+                    <div class="filterArea">
+                        <ul>
+                            <li>年：<select name="#year" style="width: 140px">
+                                @Html.Action("Year", "Reports", new { area = "ReportingService", date = "dtmVIPDate", table = "se_member" })
+                            </select></li>
+                        </ul>
+                        <input type="submit" value="查询" class="btn_o" />
+                    </div>
+                    <div class="content">
+                        <!-- 查詢結果 -->
+                        <div id="reportPreviewDiv" style="height: 750px; margin: 0px auto;">
+                            <iframe name="reportViewFrame" id="reportViewFrame" width="100%" height="100%" style="border: 0">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    $("[Name=#year]").children().each(function () {
+        if ($(this).text() == (new Date).getFullYear()) {
+            $(this).attr("selected", true);
+        }
+    });
+</script>

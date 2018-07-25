@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <ConnectingPool>
+    <!--Test-->
+    <Connect Name="LRP" ConnectingString="Xy/C/mqJJLIvLvkruY/qv+oGtfghX2AUd9C4Nl25+i5CQoSkPfOHcJZYeCQuQLTv20DpzZVjXElYw0FvHVgKUrmEbAIWXaSTpdP8gGNwyybepfEzF93k60UBAah90hZhdqGPaxgF+Wx7lvvin7u/RYR35VmwBp5HSDLhnSPjUz9iJZ+JiMUAG1rGGspwiHB0U+rEJ0C375Vca4k+X+2fqCNZHMQMSjrI89cPVTdZEj4=" />
+
+    <!--QA-->
+    <!--
+    <Connect Name="LRP" ConnectingString="Xy/C/mqJJLIvLvkruY/qv+oGtfghX2AUd9C4Nl25+i5CQoSkPfOHcJZYeCQuQLTv20DpzZVjXElYw0FvHVgKUrmEbAIWXaSTpdP8gGNwyybk+n30qJ2uWg4ryWjR/Kc48TH3o2vSaIv4IDos8k/mkZW1uaS2eRGYqJwkV4axRiRIu6Cyz8aZDgGd1Bg4493c98is9iVo6AA0D7GSbiBh6f1e1v0LoB36RLkN6urX17k=" />-->
+
+    <!--Inventalk-->
+    <Connect Name="LRP" ConnectingString="Xy/C/mqJJLIvLvkruY/qv+oGtfghX2AUd9C4Nl25+i66wwvkXNfjfxx2qHs9SOfkUbZDZ1syZFfVi0zH/wD2ThoubhniNOVDUYDMbFVdmxGMDc4XMv1t37bTPu36bimnHLlYQ/0T29MZXW0Owxp7c9PwZV56y7XE60qS3RE3S2OwQUUWmy8G4yZyGQvtEm0JkAhKbXx8MrBH56GmIowta7WLjlsWpOOkrMWeDmUnAjk=" />
+
+  </ConnectingPool>
+  <SQLCommands>
+
+   
+    <!-- 取得login/logout log Author:harry Update:harry LastUpdateDate:2016/6/7 -->
+    <SQL ID="GetLogMemberAccessSys" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+        SELECT strMemberID,
+            strType,
+            ysnSuccess,
+            dtmLogin,
+            strIP,
+            strCookieID
+        FROM Log_MemberAccessSys
+        WHERE strCookieID = @strCookieID
+      ]]>
+    </SQL>
+    <!-- 新增login/logout log Author:harry Update:harry LastUpdateDate:2016/6/7 -->
+    <SQL ID="InsertLogMemberAccessSys" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+        INSERT INTO Log_MemberAccessSys (strMemberID,
+            strType,
+            ysnSuccess,
+            dtmLogin,
+            strIP,
+            strCookieID)
+        VALUES (@strMemberID,
+            @strType,
+            @ysnSuccess,
+            GETDATE(),
+            @strIP,
+            @strCookieID)
+      ]]>
+    </SQL>
+    <!-- 取得登入者的帳密 Author:harry Update:harry LastUpDate:2016/6/7-->
+    <SQL ID="GetLoginInfo" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+        SELECT strMemberID,strContactID,strEMail,strPassword,ysnActive ,ysnActivate  ,strName,strGender    
+        FROM SE_Member  where strEMail=@strEMail
+          ]]>
+    </SQL>
+    <!-- 取得會員資料 by MemberID Author:harry Update:harry LastUpdateDate:2016/06/8 -->
+    <SQL ID="GetMemberByMemberID" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+        SELECT 
+        strMemberID,strContactID,strEMail,strPassword,strName,strMobile,strPhone
+        ,CONVERT(VARCHAR(10),dtmBirth, 111 ) AS dtmBirth,strGender,intZipCode
+      ,strCity,strZone,strAddress,ysnPolicy,strJoinTypeCode,strJoinListCode,strPicture
+      ,ysnActivate,strActivateCode,strMemberType,ysnActive,dtmActivated,dtmExpired
+      ,dtmVIPDate,ysnDM,ysnFax,ysnEmail,ysnSMS,ysnTel,strMemo,dtmCreate,strWHO,dtmUpdate
+      ,intSeqNo,strDisplayName,strPhoneCity,strFacebookID
+      
+        FROM  SE_Member
+        WHERE strMemberID = @strMemberID
+      ]]>
+    </SQL>
+    <!-- 取得會員資料 by email Author:harry Update:harry LastUpdateDate:2016/6/8 -->
+    <SQL ID="GetMemberByEmail" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+        SELECT strMemberID,strFacebookID,strEMail,strPassword,strName,strDisplayName,strMobile,
+               strPhoneCity,strPhone,dtmBirth,strGender,intZipCode,strCity,strZone,strAddress,
+               strActivateCode,ysnActivate,ysnActive
+               
+        FROM  SE_Member
+        WHERE strEMail = @strEMail
+      ]]>
+    </SQL>
+    <!-- 新增Log_Member BY strContactID  Author:harry Update:harry LastUpdateDate:2016/6/8 -->
+    <SQL ID="InsertLogMemberByContactID" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+      
+      SET XACT_ABORT ON
+    	Begin transaction
+      
+      INSERT Log_Member (strLogType,strLogWHO,dtmLogDate,strMemberID,strContactID,strEMail,strPassword
+      ,strName,strMobile,strPhone,dtmBirth,strGender,intZipCode,strCity,strZone,strAddress,ysnPolicy
+      ,strJoinTypeCode,strJoinListCode,strPicture,ysnActivate,strActivateCode,strMemberType,ysnActive
+      ,dtmActivated,dtmExpired,dtmVIPDate,ysnDM,ysnFax,ysnEmail,ysnSMS,ysnTel,strMemo,dtmCreate
+      ,strWHO,dtmUpdate,strDisplayName,strPhoneCity,strFacebookID)
+
+      SELECT @strLogType,@strLogWHO,getdate(),strMemberID,strContactID,strEMail,strPassword
+      ,strName,strMobile,strPhone,dtmBirth,strGender,intZipCode,strCity,strZone,strAddress
+      ,ysnPolicy,strJoinTypeCode,strJoinListCode,strPicture,ysnActivate,strActivateCode
+      ,strMemberType,ysnActive,dtmActivated,dtmExpired,dtmVIPDate,ysnDM,ysnFax,ysnEmail
+      ,ysnSMS,ysnTel,strMemo,dtmCreate,strWHO,dtmUpdate,strDisplayName,strPhoneCity
+      ,strFacebookID
+	  FROM SE_Member
+	  WHERE strContactID = @strContactID
+    
+    
+    Commit Transaction
+	  SET XACT_ABORT OFF
+      ]]>
+    </SQL>
+    <!-- 新增email send log Author:Max Update:Max LastUpdateDate:2016/03/22 -->
+    <SQL ID="InsertLogEMailSend" CommandType="Text" CommandTimeout="60" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+        INSERT INTO Log_EmailSent (strMemberID,
+            strEMAIL,
+            dtmCreate,
+            intSendCnt,
+            dtmSendDate,
+            ysnSend,
+            ysnActivate,
+            ysnSendDone)
+        VALUES (@strMemberID,
+            @strEMAIL,
+            GETDATE(),
+            0,
+            GETDATE(),
+            'N',
+            0,
+            0)
+      ]]>
+    </SQL>
+  </SQLCommands>
+</root>

@@ -1,0 +1,15 @@
+﻿@model List<CommonMoudle.Areas.Langue.Models.LangueModel>
+@{
+    ViewBag.Title = "Langue";
+}
+
+<select id="langue" name="langue">
+<option value="0">請選擇</option>
+@if (Model != null)
+{
+    foreach (var Item in Model)
+    {
+        <option value="@Item.LongLangCode">@Item.NameCHT (@Item.NameENG)</option>
+    } // foreach
+}
+</select>

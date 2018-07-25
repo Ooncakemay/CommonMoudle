@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "AutoComplete";
+}
+   @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+@Scripts.Render("~/Scripts/customSelect")
+@Styles.Render("~/Styles/customSelect_css")
+
+  <em>商品名稱</em>
+ 
+ 
+  <div  ng-app="Demo">
+      <div  ng-controller="DemoController">
+       <p>Selected:  {{ state }}</p>
+        <div custom-select="s.id as s.name for s in states | filter: { name: $searchTerm } track by s.id" ng-model="state"></div>
+        <button type="button"  ng-click="reset()">Reset</button>
+    
+     </div>
+ </div>
+<script type="text/javascript">
+ (function () {
+                var app = angular.module('Demo', ['AxelSoft']);
+
+                app.controller('DemoController', ['$scope', '$timeout', '$q', function ($scope, $timeout, $q) {
+                   
+                   $.ajax({
+                        url: "@Url.Action("GetItemNumber", "AutoComplete", new {area="SelectAutoComplete"})",
+                        type: 'POST',
+                        cache: false,  
+                        success: function (data) {            
+                          var items = [];
+                            $(data).each(function(){
+                                items.push({ id: $(this).attr("strItemNumber"), name: $(this).attr("strItemLongDesc") });
+                           
+                            });     
+                             $scope.states=items;
+                        }
+                    });
+                    
+
+                    $scope.reset = function () {
+                        $scope.state = undefined;
+                    };
+
+                
+
+                    $scope.nestedItemsLevel2 = [];
+                } ]);
+
+            })();
+   
+
+   
+
+  
+</script>

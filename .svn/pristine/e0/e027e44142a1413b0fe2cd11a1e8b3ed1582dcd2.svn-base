@@ -1,0 +1,62 @@
+﻿<pre>
+【模組名稱】
+下拉選單AutoComplete
+
+【功能】
+1.根據輸入的關鍵字,顯示相關的搜尋結果,並可利用下拉選單選取
+
+
+【建置方法】
+將本Area加入專案,SelectAutoComplete.xml內容貼入DA.xml,並引入Scripts/SelectAutoComplete中的.js及Styles/SelectAutoComplete
+【使用方法】
+此範例是使用商品名稱
+
+
+將以下內容加入需要的View中:
+ &lt;div  ng-app="Demo"&gt;
+       &lt;div  ng-controller="DemoController">
+        &lt;p>Selected:  {{ state }}&lt;/p&gt;
+         &lt;div custom-select="s.id as s.name for s in states | filter: { name: $searchTerm } track by s.id" ng-model="state"&gt;&lt;/div&gt;
+         &lt;button type="button"  ng-click="reset()"&gt;Reset&lt;/button&gt;
+    
+      &lt;/div&gt;
+ &lt;/div&gt;
+  ng-app="Demo" 及  ng-controller="DemoController"照順序加在外層的div
+ &lt;div custom-select="s.id as s.name for s in states | filter: { name: $searchTerm } track by s.id" ng-model="state"&gt;&lt;/div&gt;
+ 這段直接貼在需使用的地方
+ {{ state }} 是選取的值 可用在需要的位置
+ 如需重置選單需使用 button
+ &lt;script type="text/javascript"&gt;
+     (function () {
+                var app = angular.module('Demo', ['AxelSoft']);
+
+                app.controller('DemoController', ['$scope', '$timeout', '$q', function ($scope, $timeout, $q) {
+                   
+                   $.ajax({
+                        url: "@Url.Action("GetItemNumber", "AutoComplete", new {area="SelectAutoComplete"})",
+                        type: 'POST',
+                        cache: false,  
+                        success: function (data) {            
+                          var items = [];
+                            $(data).each(function(){
+                                items.push({ id: $(this).attr("strItemNumber"), name: $(this).attr("strItemLongDesc") });
+                           
+                            });     
+                             $scope.states=items;
+                        }
+                    });
+                    
+
+                    $scope.reset = function () {
+                        $scope.state = undefined;
+                    };
+
+                
+
+                    $scope.nestedItemsLevel2 = [];
+                } ]);
+
+            })();
+   
+ &lt;/script&gt;
+</pre>

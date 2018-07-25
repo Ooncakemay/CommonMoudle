@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>會員註冊</title>
+    
+    @Styles.Render("~/Styles/Common")
+    @Styles.Render("~/Styles/Register")
+    @Scripts.Render("~/bundles/jquery")
+    
+</head>
+<body>
+    <div id="body" class="lrp_login" onclick="Closemenu();">
+        <div class="lrp_wrap_outer">
+            <h1>驗證完成</h1>
+            <p>恭喜您已完成email帳號驗證！歡迎加入理膚寶水官方網站。</p>
+            <p>立即參加線上肌膚檢測，可免費領取試用品！還可獲得入會禮50點！</p>
+        </div>
+        <div class="lrp_wrap_outer lrp_wcenter lrp_2btn">
+            <div class="lrp_btn_com_sub"><a href="">下次檢測</a></div>
+            <div class="lrp_btn_com_sub"><a href="">立即檢測</a></div>
+        </div>
+    </div>
+</body>
+</html>

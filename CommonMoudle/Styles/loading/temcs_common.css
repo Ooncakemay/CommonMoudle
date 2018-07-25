@@ -1,0 +1,160 @@
+@charset "utf-8";
+/*
+@data 2016-05-16
+Author: Kate
+--------------------------------
+藍綠120%    3596a4 / 53, 150, 164  / btn_onmouseover
+藍綠100%    3ea2af / 62, 162, 175  / standard, btn_sub
+橘色120%    ed851c / 237, 133, 28  / btn_onmouseover
+橘色100%    ef9740 / 239, 151, 64  / standard, btn_main
+灰棕        8f8c89 / 143, 140, 137 / btn_thrid
+淺灰棕      bfbbb8 / 224, 222, 220 / 小圖示
+淺紅        f26b6b /               / 提醒, 星號
+灰          ddd    /               / border
+淺灰        ebe9e7 /               / 對話bg
+--------------------------------
+*/
+
+body, html, #body { height: 100%;}
+#body::after,
+header::after,
+.temcs_content::after,
+.toolbar::after,
+.temcs_toolbar_sub::after { content: ""; display: block; overflow: hidden;clear: both;}
+
+* { box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; -ms-box-sizing: border-box; -sand-box-sizing: border-box; /* padding border不影響物件寬高 */}
+html { font-size:62.5%;}
+body { font: normal 1.6em/1.5 "微軟正黑體", "微软雅黑", "Microsoft JhengHei", "Microsoft YaHei", "verdana", "Arial"; color: #8f8c89; background: #fff;}
+
+
+
+
+
+/* popup */
+.temcs_popup_wrap { width: 100%; height: 100%; left: 0; top: 0; background: rgba(0,0,0,0.5); overflow: auto; font: normal 1.4rem/1.5 "Microsoft JhengHei", "Microsoft YaHei"; color: #555;  position: fixed; z-index: 980; word-break:break-all;}
+.temcs_popup { display: block; width: 80%; max-width: 550px; min-width: 150px; min-height: 100px; margin: 100px auto 0; padding: 15px; background: #FFF; position: relative; box-shadow: 0px 0px 10px rgba(0,0,0,0.3); -moz-box-shadow: 0px 0px 10px rgba(0,0,0,0.3); -webkit-box-shadow: 0px 0px 10px rgba(0,0,0,0.3); z-index: 999;}
+.temcs_popup h4 { margin-bottom: 15px;}
+.temcs_popup p { margin-bottom: 0.5em;}
+/* 彈出視窗用關閉按鈕 */
+.temcs_popup_btn_close { display: block; width: 20px; height: 20px; background: #fff; border: solid 1px #59c2f2; position: absolute; right: 5px; top: 5px; cursor: pointer;}
+.temcs_popup_btn_close::before { content: ""; display: block; width: 18px; height: 1px; background: #59c2f2; top: 9px; left: 0px; position: absolute; transform:rotate(45deg);-moz-transform:rotate(45deg);-webkit-transform:rotate(45deg);-ms-transform:rotate(45deg);-sand-transform:rotate(45deg);}
+.temcs_popup_btn_close::after  { content: ""; display: block; width: 18px; height: 1px; background: #59c2f2; top: 9px; left: 0px; position: absolute; transform:rotate(315deg);-moz-transform:rotate(315deg);-webkit-transform:rotate(315deg);-ms-transform:rotate(315deg);-sand-transform:rotate(315deg);}
+
+
+
+/*動態loading04======================================*/
+
+.te_loader04 {
+  font-size: 16px;
+  margin: 20% auto;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-animation: load4 1.3s infinite linear;
+  animation: load4 1.3s infinite linear;
+
+}
+@-webkit-keyframes load4 {
+  0%,
+  100% {
+    box-shadow: 0em -3em 0em 0.2em #fff, 2em -2em 0 0em #fff, 3em
+0em 0 -0.5em #fff, 2em 2em 0 -0.5em #fff, 0em 3em 0 -0.5em
+#fff, -2em 2em 0 -0.5em #fff, -3em 0em 0 -0.5em #fff, -2em -2em
+ 0 0em #fff;
+  }
+  12.5% {
+    box-shadow: 0em -3em 0em 0em #fff, 2em -2em 0 0.2em #fff, 3em
+0em 0 0em #fff, 2em 2em 0 -0.5em #fff, 0em 3em 0 -0.5em #fff,
+-2em 2em 0 -0.5em #fff, -3em 0em 0 -0.5em #fff, -2em -2em 0 -0.5em
+ #fff;
+  }
+  25% {
+    box-shadow: 0em -3em 0em -0.5em #fff, 2em -2em 0 0em #fff, 3em
+ 0em 0 0.2em #fff, 2em 2em 0 0em #fff, 0em 3em 0 -0.5em #fff,
+-2em 2em 0 -0.5em #fff, -3em 0em 0 -0.5em #fff, -2em -2em 0 -0.5em
+ #fff;
+  }
+  37.5% {
+    box-shadow: 0em -3em 0em -0.5em #fff, 2em -2em 0 -0.5em #fff,
+3em 0em 0 0em #fff, 2em 2em 0 0.2em #fff, 0em 3em 0 0em #fff,
+-2em 2em 0 -0.5em #fff, -3em 0em 0 -0.5em #fff, -2em -2em 0 -0.5em
+ #fff;
+  }
+  50% {
+    box-shadow: 0em -3em 0em -0.5em #fff, 2em -2em 0 -0.5em #fff,
+3em 0em 0 -0.5em #fff, 2em 2em 0 0em #fff, 0em 3em 0 0.2em
+#fff, -2em 2em 0 0em #fff, -3em 0em 0 -0.5em #fff, -2em -2em 0
+-0.5em #fff;
+  }
+  62.5% {
+    box-shadow: 0em -3em 0em -0.5em #fff, 2em -2em 0 -0.5em #fff,
+3em 0em 0 -0.5em #fff, 2em 2em 0 -0.5em #fff, 0em 3em 0 0em
+#fff, -2em 2em 0 0.2em #fff, -3em 0em 0 0em #fff, -2em -2em 0
+-0.5em #fff;
+  }
+  75% {
+    box-shadow: 0em -3em 0em -0.5em #fff, 2em -2em 0 -0.5em #fff,
+3em 0em 0 -0.5em #fff, 2em 2em 0 -0.5em #fff, 0em 3em 0 -0.5em
+#fff, -2em 2em 0 0em #fff, -3em 0em 0 0.2em #fff, -2em -2em 0
+0em #fff;
+  }
+  87.5% {
+    box-shadow: 0em -3em 0em 0em #fff, 2em -2em 0 -0.5em #fff, 3em
+ 0em 0 -0.5em #fff, 2em 2em 0 -0.5em #fff, 0em 3em 0 -0.5em
+#fff, -2em 2em 0 0em #fff, -3em 0em 0 0em #fff, -2em -2em 0
+0.2em #fff;
+  }
+}
+@keyframes load4 {
+  0%,
+  100% {
+    box-shadow: 0em -3em 0em 0.2em #fff, 2em -2em 0 0em #fff, 3em
+0em 0 -0.5em #fff, 2em 2em 0 -0.5em #fff, 0em 3em 0 -0.5em
+#fff, -2em 2em 0 -0.5em #fff, -3em 0em 0 -0.5em #fff, -2em -2em
+ 0 0em #fff;
+  }
+  12.5% {
+    box-shadow: 0em -3em 0em 0em #fff, 2em -2em 0 0.2em #fff, 3em
+0em 0 0em #fff, 2em 2em 0 -0.5em #fff, 0em 3em 0 -0.5em #fff,
+-2em 2em 0 -0.5em #fff, -3em 0em 0 -0.5em #fff, -2em -2em 0 -0.5em
+ #fff;
+  }
+  25% {
+    box-shadow: 0em -3em 0em -0.5em #fff, 2em -2em 0 0em #fff, 3em
+ 0em 0 0.2em #fff, 2em 2em 0 0em #fff, 0em 3em 0 -0.5em #fff,
+-2em 2em 0 -0.5em #fff, -3em 0em 0 -0.5em #fff, -2em -2em 0 -0.5em
+ #fff;
+  }
+  37.5% {
+    box-shadow: 0em -3em 0em -0.5em #fff, 2em -2em 0 -0.5em #fff,
+3em 0em 0 0em #fff, 2em 2em 0 0.2em #fff, 0em 3em 0 0em #fff,
+-2em 2em 0 -0.5em #fff, -3em 0em 0 -0.5em #fff, -2em -2em 0 -0.5em
+ #fff;
+  }
+  50% {
+    box-shadow: 0em -3em 0em -0.5em #fff, 2em -2em 0 -0.5em #fff,
+3em 0em 0 -0.5em #fff, 2em 2em 0 0em #fff, 0em 3em 0 0.2em
+#fff, -2em 2em 0 0em #fff, -3em 0em 0 -0.5em #fff, -2em -2em 0
+-0.5em #fff;
+  }
+  62.5% {
+    box-shadow: 0em -3em 0em -0.5em #fff, 2em -2em 0 -0.5em #fff,
+3em 0em 0 -0.5em #fff, 2em 2em 0 -0.5em #fff, 0em 3em 0 0em
+#fff, -2em 2em 0 0.2em #fff, -3em 0em 0 0em #fff, -2em -2em 0
+-0.5em #fff;
+  }
+  75% {
+    box-shadow: 0em -3em 0em -0.5em #fff, 2em -2em 0 -0.5em #fff,
+3em 0em 0 -0.5em #fff, 2em 2em 0 -0.5em #fff, 0em 3em 0 -0.5em
+#fff, -2em 2em 0 0em #fff, -3em 0em 0 0.2em #fff, -2em -2em 0
+0em #fff;
+  }
+  87.5% {
+    box-shadow: 0em -3em 0em 0em #fff, 2em -2em 0 -0.5em #fff, 3em
+ 0em 0 -0.5em #fff, 2em 2em 0 -0.5em #fff, 0em 3em 0 -0.5em
+#fff, -2em 2em 0 0em #fff, -3em 0em 0 0em #fff, -2em -2em 0
+0.2em #fff;
+  }
+}

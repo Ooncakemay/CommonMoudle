@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "AutoComplete";
+}
+    
+    @Styles.Render("~/Styles/autocomplete")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+
+<div class="temcs_toolbar" style="position: absolute;top: 50%;left: 50%; margin: -100px 0 0 -100px;" >
+        <ul>
+            <li id="temcs_icon_list" style="list-style: none;"><span class="temcs_icon temcs_icon_list"></span></li>
+            <li class="info_keyin" style="list-style: none;">                
+                <input id="putkeyword" type="text" />
+            </li>
+            <li id="Send" style="list-style: none;"><span class=" temcs_icon temcs_icon_send"></span></li>
+        </ul>
+    </div>
+  <script type="text/javascript">
+   $(function () {
+      $('#putkeyword').keyup(function(e){
+                if (e.keyCode == 13)
+                {
+                    if(event.shiftKey){
+                        e.stopPropagation();
+                    } else {
+                       
+                        $('#CustomerMessage').autocomplete('close');
+                        e.preventDefault();
+                    }
+                }
+            });
+
+            
+
+            //AutoComplete
+            $("#putkeyword").autocomplete({
+                minLength: 1,
+                appendTo: '.auto_com',
+                source: function (request, response) {
+                    var msg = $('#putkeyword').val().split('');
+                    var keyword ='';
+                    $(msg).each(function(index){
+                        keyword += msg[index]+'%';
+                    });
+                    $.ajax({
+                        url: "@Url.Action("GetGuide", "AutoComplete", new { area = "AutoComplete" })",
+                        dataType: "json",
+                        data: {
+                             key: '%'+keyword
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return {
+                                    value: item.intSeqNo,
+                                    label: item.strAddress,
+                                    id: item.intSeqNo
+                                }
+                            })
+                        )}
+                    })
+                },
+                position: {
+                    my: "left bottom",
+                    at: "left top"
+                },
+                select: function( event, ui ) {
+                    if(event.keyCode == 13) {
+                        return false;
+                    }
+                    this.value = ui.item.label;
+                   
+                    return false;
+                },
+                focus: function (event, ui) {
+                    this.value = ui.item.label;
+                    event.preventDefault(); // Prevent the default focus behavior.
+                }
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+                //keyword highlight
+                var newText = String(item.label).replace(new RegExp(this.term, "gi"),"<span style='color:#F4245F'>$&</span>");
+                return $("<li>").data("ui-autocomplete-item", item)
+                       .append("<a href=\"javascript:countQuestionGuide('" + item.id + "')\">" + newText + "</a>")
+                       .appendTo(ul);
+            };
+            
+          
+        });
+     
+   
+ </script>

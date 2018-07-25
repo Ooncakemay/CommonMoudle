@@ -1,0 +1,64 @@
+﻿<pre>
+【模組名稱】
+多選下拉選單
+
+【功能】
+可複選之下拉選單，點下後會彈出一排checkbox供複選
+
+【建置方法】
+將此Action(MultipleSelecta)、相關.css、按鈕圖檔、相關.js加入專案
+
+ 【可調整】
+ 下拉改成上拉:
+ 修改multiple-select.css
+ 將.ms-drop.bottom 中的「top: 100%;」改為「bottom:100%;」
+ 將.ms-drop.top中的中的「bottom:100%;」改為「top: 100%;」
+
+【使用方法】
+在需要選單的View中引入style和scripts
+並加入以下內容於適當位置:
+ (#ResultListr建議改為hidden)
+ 這邊以程式選單為範例，實際應用請修改將此Action所讀取之資料與View之Model內容
+ 
+&lt;select id="RootMenuSelect" name="RootMenuSelect" multiple="multiple" style="width: 300px;" &gt;
+    
+    &#64;if (Model != null)
+    {
+        foreach (var cityItem in Model)
+        {
+            &lt;option value="&#64;cityItem.intCityCode"&gt;&#64;cityItem.strCity&lt;/option&gt;
+        } // foreach
+    }
+    
+&lt;/select&gt;
+
+&nbsp;&nbsp;&nbsp;&nbsp;已選的值:&lt;input type="text" id="ResultList" readonly="readonly" style="width: 500px;"/&gt; 
+
+
+&lt;script type="text/javascript"&gt;
+    //Menu動作
+    $("#RootMenuSelect").change(function () {
+
+        RootMenuSelectchange();
+
+    });
+
+    $(document).ready(function () {
+        $('#RootMenuSelect').multipleSelect(
+        {
+            placeholder: "請選擇",
+            minimumCountSelected: 1,
+            countSelected: '已複選'
+        });
+    });
+
+    function RootMenuSelectchange() {
+             
+        $('#ResultList').val($('#RootMenuSelect').multipleSelect('getSelects'));
+
+    }
+&lt;/script&gt;
+
+
+
+ </pre>

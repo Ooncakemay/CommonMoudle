@@ -1,0 +1,143 @@
+﻿@*@model CommonMoudle.Areas.ImageUpload.Models.ProductMaitainModel*@
+@{
+    Layout = "";
+    //bool hascontent = false;
+    //if (!String.IsNullOrEmpty(Model.strProductDesc))
+    //{
+    //    hascontent = true;
+    //    //取代換行符號及Tab空格，不然換行或Tab空格在編輯器上呈現會有問題，換行編輯器上呈現會為<br>
+    //    Model.strProductDesc = Model.strProductDesc.Replace("\n", "").Replace("\r", "");
+    //}
+}
+@Styles.Render("~/Styles/ImageUpload/TecrmBackweb_Common")
+@Scripts.Render("~/bundles/CKeditor")
+@Scripts.Render("~/bundles/jquery")
+
+<!-- 直欄切割外框 begin -->
+	<div class="te_col_wrap_noborder">
+
+<!-- 直欄切割-右(圖片上傳) begin -->
+		<div class="te_col_box te_col_4 te_wrap_inner">
+			<ul >
+				<li>
+					<em>圖片上傳區</em>
+					<div id="ProductPicDiv"  >
+					@*	 @if (!String.IsNullOrEmpty(Model.strLPicture))
+       {
+							<img alt="@Model.strProductName_CH" src="@Url.Content(Model.strLPicture)" />
+       }*@
+					</div>
+				</li>
+				<li>
+					<span class="te_text_alert">@String.Format("圖片大小限制{0}M", ViewBag.SizeLimit)</span>
+					@*<input id="strSPicture" type="hidden" value="@Model.strSPicture"/>
+					<input id="strLPicture" type="hidden" value="@Model.strLPicture"/>*@
+					<input id="FolderPath" type="hidden" value=""/>
+				</li>
+
+                      <input id="Upload" type="button" value="上傳" onclick="openUploadFileWin('Picture');"/>
+				@*<li>
+					<em>背景圖片</em>
+					<div id="ProductBgPicDiv" class="upload_img" onclick="openUploadFileWin('BackgroundPicture');">
+						@*if (!String.IsNullOrEmpty(Model.strBPicture))
+                   {
+							<img alt="@Model.strProductName_CH" src="@Url.Content(Model.strBPicture)"/>
+                   }
+					</div>
+				</li>
+				<li>
+					<span class="te_text_alert">@String.Format("圖片大小限制{0}M，尺寸大小：{1}(px)", ViewBag.SizeLimit, ViewBag.BackgroundPicture)</span>
+					<input id="strBPicture" type="hidden" value="@Model.strBPicture"/>
+				</li>*@
+			</ul>
+		</div>
+		<!-- 直欄切割-右(圖片上傳) end -->
+        </div>
+
+        <div id="maskMember" style="position: fixed; top: 0; left: 0; width: 100%; height: 200%;
+     background-color : #000; display: none; z-index: 9;">
+     </div>
+    <div id="divDialogMember" frameborder="0" scrolling="no" class="divDialog">
+    </div>
+
+
+
+        <script type="text/javascript">
+        //點選上傳
+     function openUploadFileWin(strProfileID) {
+        
+            var width = $(window).width();
+            if (width > 620) {
+                width = 600;
+            }
+            else {
+                width = width - 50;
+            }
+            openIframeMember(width, 400, strProfileID);
+       
+    }
+    
+    //上傳視窗
+    function openIframeMember(newWidth, newHeight, strProfileID) {
+        $('#divDialogMember').css({ width: newWidth, height: newHeight });
+        var h = ($(window).height() - newHeight) / 2 + $(window).scrollTop();
+        var w = ($(window).width() - newWidth) / 2 + $(window).scrollLeft();
+
+        if (h < 0) { h = $(window).scrollTop(); }
+
+        $('#divDialogMember').css({ top: h + "px", left: w + "px"
+        });
+
+        $("#divDialogMember").show();
+        $("#maskMember").fadeTo(250, 0.4);
+        $("#divDialogMember").show();
+
+        $.ajax({
+            url: '@Url.Action("ImageUpload", "ImageUpload", new { area = "ImageUpload" })',
+            data: {  strProfileID: strProfileID },
+            type: 'POST',
+            async: false,
+            cache: false,
+            success: function (data) {
+                $('#divDialogMember').empty();
+                $("#divDialogMember").append(data);
+            }
+        });
+    }
+
+    //取得檔案路徑
+    function SetFullFile(MultiSizeImgList, uploadPath, FolderPath, PicType) {
+        var BackWebPath = '@System.Configuration.ConfigurationManager.AppSettings["BackWebPath"].ToString()';
+        for (var i = 0; i < MultiSizeImgList.length; i++) {
+            $('#' + MultiSizeImgList[i].ImgType).val(BackWebPath + uploadPath.replace('~', '') + '/' + MultiSizeImgList[i].FileName);
+
+
+            $('#FolderPath').val(FolderPath);
+//            if (PicType == 'Picture') //尺寸大小
+//            {
+//               
+
+                var picUrl ="@Url.Content("~/Upload/picture/")" + MultiSizeImgList[i].FileName;
+                var path = '<a  href= '+ picUrl + ' target ="_blank" >'+ MultiSizeImgList[i].FileName + '</a></br>';
+                $('#ProductPicDiv').append(path);
+
+//            }
+//            else //此次上傳的是背景圖
+//            {
+//                $('#ProductBgPicDiv').empty();
+//                var imagename ="@Url.Content("~/Upload/picture/")" + MultiSizeImgList[i].FileName;
+//                var img = '<img  src= '+ image + '>';
+//                $('#ProductBgPicDiv').append(img);
+//            }
+        }
+    }
+
+    //關閉 Iframe
+    function CloseIframe() {
+        $("#divDialogMember").html('');
+        $("#divDialogMember").attr('src', 'about:blank');
+        $("#divDialogMember").hide();
+        $("#maskMember").hide();
+    }
+
+      </script>

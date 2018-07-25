@@ -1,0 +1,5 @@
+﻿@{
+    ViewBag.Title = "GetIP";
+}
+
+<span>ID位置為 @ViewBag.strIP</span>

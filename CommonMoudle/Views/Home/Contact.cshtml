@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "程式";
+}
+<hgroup class="title">
+    <h1>@ViewBag.Title</h1>
+</hgroup>
+<h3>
+    程式項目:</h3>
+<ol class="round">
+    <li class="one">
+        <h3>
+            Input元件類</h3>
+        <table>
+            <tr>
+                <td>
+                    <h5>
+                        城市下拉選單</h5>
+                    <a href="@Url.Action("Index", "CitySelect", new { Area = "CitySelect" })">說明</a>
+                    <a href="@Url.Action("CitySelect", "CitySelect", new { Area = "CitySelect" })">Demo</a>
+                </td>
+                <td>
+                    <h5>
+                        Autocomplete</h5>
+                    <a href="@Url.Action("Index", "Autocomplete", new { Area = "Autocomplete" })">說明</a>
+                    <a href="@Url.Action("Autocomplete", "Autocomplete", new { Area = "Autocomplete" })">Demo</a>
+                </td>
+                <td>
+                    <h5>ImageUpload</h5>
+                    <a href="@Url.Action("Index", "ImageUpload", new { Area = "ImageUpload" })">說明</a>
+                    <a href="@Url.Action("Upload", "ImageUpload", new { Area = "ImageUpload" })">Demo</a>
+                    <br/>新增時間:2016/07/14
+                </td>
+                <td>
+                    <h5>ckeditor</h5>
+                    <a href="@Url.Action("Index", "ckeditor", new { Area = "ckeditor" })">說明</a>
+                    <a href="@Url.Action("ckeditor", "ckeditor", new { Area = "ckeditor" })">Demo</a>
+                    <br/>新增時間:2016/08/25
+                </td>
+                <td>
+                    <h5>SelectAutoComplete</h5>
+                    <a href="@Url.Action("Index", "AutoComplete", new { Area = "SelectAutoComplete" })">說明</a>
+                    <a href="@Url.Action("AutoComplete", "AutoComplete", new { Area = "SelectAutoComplete" })">Demo</a>
+                    <br/>新增時間:2016/08/23
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5>多選下拉選單</h5>
+                    <a href="@Url.Action("Index", "MultipleSelect", new { Area = "MultipleSelect" })">說明</a>
+                    <a href="@Url.Action("MultipleSelect", "MultipleSelect", new { Area = "MultipleSelect" })">Demo</a>
+                    <br/>新增時間:2016/08/26
+                </td>
+            </tr>
+        </table>
+        </li>
+        <li class="two">
+            <h3>
+                頁面類</h3>
+            <table>
+                <tr>
+                    <td>
+                        <h5>
+                            PopUp</h5>
+                        <a href="@Url.Action("Index", "PopUp", new { Area = "PopUp" })">說明</a> 
+                        <a href="@Url.Action("PopUp", "PopUp", new { Area = "PopUp" })">Demo</a>
+                    </td>
+                    <td>
+                        <h5>
+                            註冊</h5>
+                        <a href="@Url.Action("Index", "Register", new { Area = "Register" })">說明</a> 
+                        <a href="@Url.Action("Register", "Register", new { Area = "Register" })">Demo</a>
+                    </td>
+                    <td>
+                        <h5>
+                            登入</h5>
+                        <a href="@Url.Action("Index", "Login", new { Area = "Login" })">說明</a> 
+                        <a href="@Url.Action("Login", "Login", new { Area = "Login" })">Demo</a>
+                    </td>
+                    <td>
+                        <h5>
+                            loading</h5>
+                        <a href="@Url.Action("Index", "loading", new { Area = "loading" })">說明</a> 
+                        <a href="@Url.Action("loading", "loading", new { Area = "loading" })">Demo</a>
+                    </td>
+                </tr>
+            </table>
+        </li>
+        <li class="three">
+            <h3>
+                其他功能</h3>
+            <table>
+                <tr>
+                    <td>
+                        <h5>
+                            取得IP</h5>
+                        <a href="@Url.Action("Index", "GetIP", new { Area = "GetIP" })">說明</a> 
+                        <a href="@Url.Action("GetIP", "GetIP", new { Area = "GetIP" })">Demo</a>
+                        <br/>新增時間:2016/06/21
+                    </td>
+                    <td>
+                        <h5>
+                            langue</h5>
+                        <a href="@Url.Action("Index", "Langue", new { Area = "Langue" })">說明</a> 
+                        <a href="@Url.Action("Langue", "Langue", new { Area = "Langue" })">Demo</a>
+                    </td>
+                    <td>
+                        <h5>
+                            Sys_Parameter</h5>
+                        <a href="@Url.Action("Index", "Parameter", new { Area = "Parameter" })">說明</a> 
+                        <a href="@Url.Action("Parameter", "Parameter", new { Area = "Parameter" })">Demo</a>
+                    </td>
+                    <td>
+                        <h5>
+                            ReportingService</h5>
+                        <a href="@Url.Action("Index", "Reports", new { Area = "ReportingService" })">說明</a>
+                        <a href="@Url.Action("SampleReport", "Reports", new { Area = "ReportingService" })">Demo</a>
+                        <br/>新增時間:2016/06/30
+                    </td>
+                </tr>
+            </table>
+        </li>
+</ol>

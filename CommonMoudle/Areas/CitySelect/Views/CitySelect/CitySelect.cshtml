@@ -1,0 +1,27 @@
+﻿ @Scripts.Render("~/bundles/jquery")
+
+<select id="strCity" name="strCity" onchange="fCityChange($(this));">@Html.Action("CityList", "CitySelect", new { area = "CitySelect" })
+</select>
+<select id="intZipCode" name="intZipCode">@Html.Action("AreaList", "CitySelect", new { area = "CitySelect", intCityCode = 0 })
+</select>
+
+<script type="text/javascript">
+    function fCityChange(varCityObj) {
+
+        var varIntCityCode = varCityObj.val();
+
+        $.ajax({
+            url: '@Url.Action("AreaList", "CitySelect", new { area = "CitySelect" })',
+            data: { intCityCode: varIntCityCode },
+            type: "POST",
+            async: true,
+            cache: true,
+            success: function (list) {
+                $('#intZipCode option').remove();
+                $('#intZipCode').append(list);
+
+            }
+        });
+    } // fCityChange()
+
+</script>

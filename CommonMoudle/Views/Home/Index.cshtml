@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "首頁";
+}
+@section featured {
+    <section class="featured">
+<div class="content-wrapper">
+<hgroup class="title">
+<h1>@ViewBag.Message</h1>
+</hgroup>
+<p>
+若有問題請洽Lynn.
+</p>
+</div>
+</section>
+}
+<h3>
+    最近新增項目:</h3>
+<ol class="round">
+    <li class="one">
+        <h5>
+            多選下拉選單</h5>
+        <a href="@Url.Action("Index", "MultipleSelect", new { Area = "MultipleSelect" })">說明</a>
+        <a href="@Url.Action("MultipleSelect", "MultipleSelect", new { Area = "MultipleSelect" })">
+            Demo</a>
+        <br />
+        新增時間:2016/08/26 </li>
+    <li class="two">
+        <h5>
+            ckeditor</h5>
+        <a href="@Url.Action("Index", "ckeditor", new { Area = "ckeditor" })">說明</a> <a href="@Url.Action("ckeditor", "ckeditor", new { Area = "ckeditor" })">
+            Demo</a>
+        <br />
+        新增時間:2016/08/25 </li>
+    <li class="three">
+        <h5>
+            SelectAutoComplete</h5>
+        <a href="@Url.Action("Index", "AutoComplete", new { Area = "SelectAutoComplete" })">
+            說明</a> <a href="@Url.Action("AutoComplete", "AutoComplete", new { Area = "SelectAutoComplete" })">
+                Demo</a>
+        <br />
+        新增時間:2016/08/23 </li>
+    <li class="four">
+        <h5>
+            ImageUpload</h5>
+        <a href="@Url.Action("Index", "ImageUpload", new { Area = "ImageUpload" })">說明</a>
+        <a href="@Url.Action("Upload", "ImageUpload", new { Area = "ImageUpload" })">Demo</a>
+        <br />
+        新增時間:2016/07/14 </li>
+    <li class="five">
+        <h5>
+            ReportingService</h5>
+        <a href="@Url.Action("Index", "Reports", new { Area = "ReportingService" })">說明</a>
+        <a href="@Url.Action("SampleReport", "Reports", new { Area = "ReportingService" })">
+            Demo</a>
+        <br />
+        新增時間:2016/06/30 </li>
+    <li class="six">
+        <h5>
+            取得IP</h5>
+        <a href="@Url.Action("Index", "GetIP", new { Area = "GetIP" })">說明</a> <a href="@Url.Action("GetIP", "GetIP", new { Area = "GetIP" })">
+            Demo</a>
+        <br />
+        新增時間:2016/06/21 </li>
+</ol>

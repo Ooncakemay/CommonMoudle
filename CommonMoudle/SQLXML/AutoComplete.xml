@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<root>
+  <ConnectingPool>
+    <!--Test-->
+    <!--<Connect Name="LRP" ConnectingString="Xy/C/mqJJLIvLvkruY/qv+oGtfghX2AUd9C4Nl25+i5CQoSkPfOHcJZYeCQuQLTv20DpzZVjXElYw0FvHVgKUrmEbAIWXaSTpdP8gGNwyybepfEzF93k60UBAah90hZhdqGPaxgF+Wx7lvvin7u/RYR35VmwBp5HSDLhnSPjUz9iJZ+JiMUAG1rGGspwiHB0U+rEJ0C375Vca4k+X+2fqCNZHMQMSjrI89cPVTdZEj4=" />-->
+
+    <!--QA-->
+    <!--
+    <Connect Name="LRP" ConnectingString="Xy/C/mqJJLIvLvkruY/qv+oGtfghX2AUd9C4Nl25+i5CQoSkPfOHcJZYeCQuQLTv20DpzZVjXElYw0FvHVgKUrmEbAIWXaSTpdP8gGNwyybk+n30qJ2uWg4ryWjR/Kc48TH3o2vSaIv4IDos8k/mkZW1uaS2eRGYqJwkV4axRiRIu6Cyz8aZDgGd1Bg4493c98is9iVo6AA0D7GSbiBh6f1e1v0LoB36RLkN6urX17k=" />-->
+
+    <!--Inventalk-->
+    <Connect Name="LRP" ConnectingString="Xy/C/mqJJLIvLvkruY/qv+oGtfghX2AUd9C4Nl25+i66wwvkXNfjfxx2qHs9SOfkUbZDZ1syZFfVi0zH/wD2ThoubhniNOVDUYDMbFVdmxGMDc4XMv1t37bTPu36bimnHLlYQ/0T29MZXW0Owxp7c9PwZV56y7XE60qS3RE3S2OwQUUWmy8G4yZyGQvtEm0JkAhKbXx8MrBH56GmIowta7WLjlsWpOOkrMWeDmUnAjk=" />
+
+  </ConnectingPool>
+  <SQLCommands>
+
+
+    <!--地址關鍵字搜尋 Author:harry Update:harry LastUpdateDate:2016/06/21-->
+    <SQL ID="AutoSearch" CommandType="Text" CommandTimeout="" PageCount="5" ConnectName="LRP">
+      <![CDATA[ 
+           SELECT intSeqNo,(strCity+strZone+strAddress)strAddress,dtmUpdate
+            FROM SE_Member
+            where (strCity+strZone+strAddress) COLLATE Latin1_General_CS_AI like '%'+ @keyword +'%' 
+            
+      ]]>
+    </SQL>
+   
+  </SQLCommands>
+</root>

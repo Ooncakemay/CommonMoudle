@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>Popup</title>  
+        @Styles.Render("~/Styles/Common")
+        @Scripts.Render("~/bundles/jquery")
+</head>
+<body>
+
+<input type="button" class="lrp_btn_com_sub" value="Open PopUp" onclick="OpenPop('','提示訊息','');" onkeypress="OpenPop('','提示訊息','');">
+           
+
+
+
+    <!-- PopUp訊息視窗Start  請將此段貼入"_Layout"-->
+    <div id="PopArea" class="lrp_popup_wrap" style="display: none;">
+        <div class="lrp_popup">
+            <span class="lrp_popup_btn_close" title="close" onclick="ClosePop();"></span>
+            <div class="lrp_wrap_inner">
+                <h4 id="PopTitle">
+                    訊息視窗</h4>
+                <input id="hidGotoURL" type="hidden" />
+                <p id="PopMessage">
+                </p>
+            </div>
+            <div class="lrp_wcenter">
+                <input type="button" class="lrp_btn_com_sub" value="確認" onclick="ClosePop();" /></div>
+        </div>
+    </div>
+    <!-- PopUp訊息視窗End -->
+
+
+</body>
+</html>
+<script type="text/javascript">
+
+//【開始貼入_Layout】
+    //開啟PopUp訊息視窗
+    //Tital:訊息視窗標題，沒有就預設
+    //Message:訊息視窗內文
+    //gotoURL:關閉訊息視窗後，需導向的頁面網址，空值就不導頁
+    function OpenPop(Title, Message, gotoURL) {
+        if (Title != "") {
+            $("#PopTitle").html(Title);
+        }
+        if (gotoURL != "") {
+            $("#hidGotoURL").val(gotoURL);
+        }
+
+        $("#PopMessage").html(Message);
+        $("#PopArea").show();
+    }
+
+    //關閉PopUp訊息視窗，並在關閉後初始化PopUp視窗
+    function ClosePop() {
+        $("#PopTitle").html("訊息視窗");
+        $("#PopMessage").html('');
+        $("#PopArea").hide();
+        if ($("#hidGotoURL").val() != "") {
+            window.location = $("#hidGotoURL").val();
+        }
+    }
+//【停止貼入_Layout】
+
+</script>

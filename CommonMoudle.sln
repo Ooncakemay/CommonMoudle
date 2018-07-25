@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonMoudle", "CommonMoudle\CommonMoudle.csproj", "{4EA48E99-D2CB-4B87-9E44-B0F6EFBD5EFE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{24B0E1B5-B14F-4EE6-ACC9-AE2AF1BDB8AE}"
+	ProjectSection(SolutionItems) = preProject
+		..\LRP\.nuget\NuGet.Config = ..\LRP\.nuget\NuGet.Config
+		..\LRP\.nuget\NuGet.exe = ..\LRP\.nuget\NuGet.exe
+		..\LRP\.nuget\NuGet.targets = ..\LRP\.nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4EA48E99-D2CB-4B87-9E44-B0F6EFBD5EFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EA48E99-D2CB-4B87-9E44-B0F6EFBD5EFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EA48E99-D2CB-4B87-9E44-B0F6EFBD5EFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EA48E99-D2CB-4B87-9E44-B0F6EFBD5EFE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

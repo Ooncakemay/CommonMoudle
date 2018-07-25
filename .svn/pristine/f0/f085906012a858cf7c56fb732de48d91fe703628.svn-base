@@ -1,0 +1,48 @@
+﻿@model List<CommonMoudle.Areas.MultipleSelect.Models.CityModel>
+@{
+    Layout = "";
+}
+  @Scripts.Render("~/bundles/jquery")
+
+@Scripts.Render("~/bundles/MultipleSelect")
+@Styles.Render("~/Styles/MultipleSelect")
+
+
+<select id="RootMenuSelect" name="RootMenuSelect" multiple="multiple" style="width: 300px;" >
+    
+    @if (Model != null)
+    {
+        foreach (var cityItem in Model)
+        {
+            <option value="@cityItem.intCityCode">@cityItem.strCity</option>
+        } // foreach
+    }
+    
+</select>
+
+&nbsp;&nbsp;&nbsp;&nbsp;已選的值:<input type="text" id="ResultList" readonly="readonly" style="width: 500px;"/> 
+
+
+<script type="text/javascript">
+    //Menu動作
+    $("#RootMenuSelect").change(function () {
+
+        RootMenuSelectchange();
+
+    });
+
+    $(document).ready(function () {
+        $('#RootMenuSelect').multipleSelect(
+        {
+            placeholder: "請選擇",
+            minimumCountSelected: 1,
+            countSelected: '已複選'
+        });
+    });
+
+    function RootMenuSelectchange() {
+             
+        $('#ResultList').val($('#RootMenuSelect').multipleSelect('getSelects'));
+
+    }
+</script>
